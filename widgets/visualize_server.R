@@ -356,7 +356,7 @@ output$visualize_download_chart <- downloadHandler(
          ## year <- as.numeric(input$visualize_year)
          data.plot.yr <- .visualize.data(data.coef = data.coef,
                                          data.demand = data.demand,
-                                         year = yr,
+                                         year = yr, # loop here
                                          couX = couX,
                                          indX = indX,
                                          couD = couD,
@@ -369,7 +369,17 @@ output$visualize_download_chart <- downloadHandler(
          ##                 input.visualize_year = yr)
          .visualize.plot(input.visualize_method = visualize_method,
                          visualize.data = data.plot.yr,
-                         input.visualize_year = yr)
+                         input.visualize_year = yr,
+                         input.visualize_cellborder = input$visualize_cellborder,
+                         indX = indX,
+                         couD = couD,
+                         noind = values$noind,
+                         nocou = values$nocou,
+                         visualize.param = visualize.param(),
+                         input.visualize_colorscheme = input$visualize_colorscheme,
+                         input.visualize_pivotmatrix = input$visualize_pivotmatrix
+                         )
+         
        }
        dev.off()
     }
