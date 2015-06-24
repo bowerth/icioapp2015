@@ -47,25 +47,6 @@ setInitValues <- function() {
         env <- new.env()
         load(file.path("data", "DATA.ICIOeconCVB.Rdata"), envir = env)
         df <- mget(ls(envir = env), envir = env)
-        ## ## attempt to reduce object size
-        ## DATA.ICIOeconCVB <- df$DATA.ICIOeconCVB
-        ## dim(DATA.ICIOeconCVB)
-        ## ## install.packages("pryr")
-        ## require(pryr)
-        ## require(devtools)
-        ## object_size(DATA.ICIOeconCVB)
-        ## length(DATA.ICIOeconCVB)
-        ## ## 84 * 10^6
-        ## ## 17 * 2346 * 2108
-        ## p = 8
-        ## n = 10^p
-        ## testarray <- array(runif(n, min = 0, max = 1))
-        ## object_size(testarray)
-        ## ## 800 MB
-        ## DATA.ICIOeconCVB_2005 <- array(NA, dim = dim(df$DATA.ICIOeconCVB))
-        ## object_size(DATA.ICIOeconCVB_2005)
-        ## DATA.ICIOeconCVB_2005 <- df$DATA.ICIOeconCVB[2005 - 1994, , ]
-        ## save(DATA.ICIOeconCVB_2005, file = file.path("data", "DATA.ICIOeconCVB_2005.Rdata"))
         values[["DATA.ICIOeconCVB"]] <- df
         values[["DATA.ICIOeconCVB_descr"]] <- attr(df, "description")
         values$datasetlist <- c(isolate(values$datasetlist), "DATA.ICIOeconCVB")
@@ -110,6 +91,14 @@ setInitValues() # using a function here so it can also be called from state.R to
 load(file.path("data", "convRegCou.rda")) # load matrix "convRegCou" to calculate region aggregates for source countries
 
 load(file.path("data", "ConvAggInd.Rdata")) # load matrix "convAggInd" to calculate aggregates for source industries
+## ## add aggregate C01T14 and C40T45 for coloring
+## C01T14 <- C40T45 <- rep(0, 34);
+## C01T14[c(1, 2)] <- 1
+## C40T45[c(19, 20)] <- 1
+## convAggInd <- cbind(convAggInd, C01T14, C40T45)
+## save(convAggInd, file = file.path("data", "ConvAggInd.Rdata"))
+##
+## ## create indagg list for input field
 ## nameind <- colnames(convAggInd)
 ## indagg <- NULL
 ## for (ind in nameind) {
@@ -123,7 +112,6 @@ NameInd34_agg <- read.csv(file.path("data", "Ind+aggrInd.csv"), header = F) # le
 
 ## create colors
 twitterblue <- rgb(red = 66, green = 139, blue = 202, maxColorValue = 255)
-
 ## source(file.path("R", "convCreate.R"))
 
 ## ## create conversion [2108 * 2346]
@@ -151,20 +139,20 @@ ui.icioDash.namereg.df <- read.csv(file.path("data", "Reggrp_ones.csv"), header 
 
 ## ## create region and country lists
 ## ## names(ui.icioDash.namereg.df)
-## namereg <- c("WOR", "OECD", "EU28", "NAFTA", "EASIA", "ASEAN", "ZEUR", "ZOTH")
-
+## namereg <- c("WOR", "OECD", "EU28", "NAFTA", "EASIA", "ASEAN", "ZEUR", "ZOTH", "ZSCA")
+## ##
 ## couagg <- NULL
 ## for (reg in namereg) {
 ##   couagg.reg <- seq(along = ui.icioDash.namereg.df[[reg]])[ui.icioDash.namereg.df[[reg]]==1]
 ##   couagg <- c(couagg, list(couagg.reg))
 ## }
 ## names(couagg) <- namereg
-
+## ##
 ## namecou <- ui.icioDash.namereg.df$X
 ## namecou.list <- as.list(seq(along = namecou))
 ## names(namecou.list) <- namecou
 ## couagg <- c(couagg, namecou.list)
-
+## ##
 ## save(couagg, file = file.path(dbpath, "GitHub", "icioapp2015", "data", "couagg.rda"))
 
 ## ## create converter to calculate region aggregates for 62 countries
@@ -206,6 +194,6 @@ ui.icioDash.namereg.df <- read.csv(file.path("data", "Reggrp_ones.csv"), header 
 ##   couagg69 <- lapply(couagg69, lookup, index.new)
 ## }
 ## ##
-## ## save(couagg69, file = file.path(dbpath, "GitHub", "icioapp2015", "data", "couagg69.rda"))
+## save(couagg69, file = file.path(dbpath, "GitHub", "icioapp2015", "data", "couagg69.rda"))
 
 ## create matrix converter to add regions to countries

@@ -44,7 +44,18 @@ visualize.input <- column(width = 3,
                        downloadButton('visualize_download_data', 'Download Data (csv)')
                      ,
                      downloadButton('visualize_download_chart', 'Download Charts (pdf)')
+                       ,
+                       selectInput('visualize_colorscheme', 'Color Scheme',
+                                   choices = c("continuous", "discrete"),
+                                   ## selected = "blues",
+                                   selected = "discrete",
+                                   multiple = FALSE)
                      ,
+                       checkboxInput('visualize_cellborder', 'Cell Borders', value = TRUE)
+                       ,
+                       checkboxInput('visualize_pivotmatrix', 'Swap x- and y-axes', value = FALSE)
+                      ,
+
                      helpText('\nChart download for selected time period')
                    )
                    )

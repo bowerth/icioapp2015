@@ -153,9 +153,83 @@ visualize.param <- reactive({
 
 })
 
+.visualize.color <- function(colorscheme,
+                             ## indX,
+                             selected_y,
+                             obs_y) {
+
+    if (colorscheme == "continuous") {
+        ## palette <- colorRampPalette(c("grey20", twitterblue))(length(c(1:34))) # number of industries
+        palette <- colorRampPalette(c("grey20", twitterblue))(length(c(1:obs_y))) # number of industries
+        ## ## remove color for all non-selected
+        ## palette[setdiff(c(1:obs_y), selected_y)] <- "grey90"
+        ## remove color for all selected
+        palette[selected_y] <- "grey50"
+
+    } else if (colorscheme == "discrete") {
+
+        ## ## different color hues for 5 aggregates: C01T14 (1, 2), C15T37 (3-18), C40T45 (19, 20), C50T74, C75T95
+        ## nameagg <- c("C01T14", "C15T37", "C40T45", "C50T74", "C75T95")
+        ## ## convAggInd[ , nameagg]
+        ## ## RColorBrewer::brewer.pal(length(nameagg), "Set1")[1:length(nameagg)]
+        ## ## palette.base <- c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", "#FF7F00")
+        ## ## palette.base <- colorRampPalette(c("grey20", twitterblue))(length(nameagg))
+        ## palette.base <- rev(RColorBrewer::brewer.pal(9, "Blues"))[1:length(nameagg)]
+        ## ## request: shades of blue
+        ## palette <- rep("white", isolate(values$noind))
+        ## for (j in seq(along = nameagg)) {
+        ##     for (i in c(1:isolate(values$noind))) {
+        ##         if (convAggInd[ , nameagg][i, j]==1) palette[i] <- palette.base[j]
+        ##     }
+        ## }
+        ## ## cat(paste0('c("', gsub(", ", "\", \"", toString(palette)), '")\n'))
+
+        if (obs_y == values$noind) { # 34
+            ## palette <- c("#E41A1C", "#E41A1C", "#377EB8", "#377EB8", "#377EB8", "#377EB8", "#377EB8", "#377EB8", "#377EB8", "#377EB8", "#377EB8", "#377EB8", "#377EB8", "#377EB8", "#377EB8", "#377EB8", "#377EB8", "#377EB8", "#4DAF4A", "#4DAF4A", "#984EA3", "#984EA3", "#984EA3", "#984EA3", "#984EA3", "#984EA3", "#984EA3", "#984EA3", "#984EA3", "#FF7F00", "#FF7F00", "#FF7F00", "#FF7F00", "#FF7F00")
+            ## palette <- c("#333333", "#333333", "#364958", "#364958", "#364958", "#364958", "#364958", "#364958", "#364958", "#364958", "#364958", "#364958", "#364958", "#364958", "#364958", "#364958", "#364958", "#364958", "#3A5F7E", "#3A5F7E", "#3E75A4", "#3E75A4", "#3E75A4", "#3E75A4", "#3E75A4", "#3E75A4", "#3E75A4", "#3E75A4", "#3E75A4", "#428BCA", "#428BCA", "#428BCA", "#428BCA", "#428BCA")
+            palette <- c("#08306B", "#08306B", "#08519C", "#08519C", "#08519C", "#08519C", "#08519C", "#08519C", "#08519C", "#08519C", "#08519C", "#08519C", "#08519C", "#08519C", "#08519C", "#08519C", "#08519C", "#08519C", "#2171B5", "#2171B5", "#4292C6", "#4292C6", "#4292C6", "#4292C6", "#4292C6", "#4292C6", "#4292C6", "#4292C6", "#4292C6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6")
+        } else if (obs_y == values$nocou) { # 62
+
+            ## ## different color hues for 6 regions:
+            ## namereg <- c("EU28", "NAFTA", "EASIA", "ASEAN", "ZEUR", "ZOTH", "ZSCA")
+            ## ## convRegCou[ , namereg]
+            ## ## RColorBrewer::brewer.pal(length(namereg), "Set1") # 7
+            ## ## palette.base <- c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "lawngreen", "#A65628") # 6 is yellow
+            ## ## request: shades of blue
+            ## ## palette.base <- colorRampPalette(c("grey20", twitterblue))(length(namereg))
+            ## palette.base <- rev(RColorBrewer::brewer.pal(9, "Blues"))[1:length(namereg)]
+            ## palette <- rep("white", isolate(values$nocou))
+            ## for (j in seq(along = namereg)) {
+            ##     for (i in c(1:isolate(values$nocou))) {
+            ##         if (convRegCou[ , namereg][i, j]==1) palette[i] <- palette.base[j]
+            ##     }
+            ## }
+            ## ## cat(paste0('c("', gsub(", ", "\", \"", toString(palette)), '")\n'))
+
+
+            ## palette <- c("lawngreen", "#FF7F00", "#FF7F00", "#377EB8", "#A65628", "#FF7F00", "#FF7F00", "#FF7F00", "#FF7F00", "#FF7F00", "#FF7F00", "#FF7F00", "#FF7F00", "#FF7F00", "#FF7F00", "lawngreen", "#FF7F00", "#4DAF4A", "#4DAF4A", "#FF7F00", "#377EB8", "#FF7F00", "lawngreen", "#FF7F00", "#FF7F00", "#FF7F00", "#FF7F00", "#FF7F00", "#FF7F00", "#FF7F00", "#FF7F00", "lawngreen", "#FF7F00", "#377EB8", "#A65628", "#FF7F00", "#A65628", "#984EA3", "#4DAF4A", "#A65628", "#A65628", "#FF7F00", "#4DAF4A", "#FF7F00", "#984EA3", "lawngreen", "#984EA3", "#FF7F00", "#FF7F00", "#FF7F00", "#984EA3", "#984EA3", "#FF7F00", "#FF7F00", "lawngreen", "#984EA3", "#984EA3", "lawngreen", "#4DAF4A", "#984EA3", "lawngreen", "lawngreen")
+            ## palette <- c("#3F7CB0", "#3D6D97", "#3D6D97", "#35414C", "#428BCA", "#3D6D97", "#3D6D97", "#3D6D97", "#3D6D97", "#3D6D97", "#3D6D97", "#3D6D97", "#3D6D97", "#3D6D97", "#3D6D97", "#3F7CB0", "#3D6D97", "#385065", "#385065", "#3D6D97", "#35414C", "#3D6D97", "#3F7CB0", "#3D6D97", "#3D6D97", "#3D6D97", "#3D6D97", "#3D6D97", "#3D6D97", "#3D6D97", "#3D6D97", "#3F7CB0", "#3D6D97", "#35414C", "#428BCA", "#3D6D97", "#428BCA", "#3A5F7E", "#385065", "#428BCA", "#428BCA", "#3D6D97", "#385065", "#3D6D97", "#3A5F7E", "#3F7CB0", "#3A5F7E", "#3D6D97", "#3D6D97", "#3D6D97", "#3A5F7E", "#3A5F7E", "#3D6D97", "#3D6D97", "#3F7CB0", "#3A5F7E", "#3A5F7E", "#3F7CB0", "#385065", "#3A5F7E", "#3F7CB0", "#3F7CB0")
+            palette <- c("#9ECAE1", "#6BAED6", "#6BAED6", "#08519C", "#C6DBEF", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#9ECAE1", "#6BAED6", "#2171B5", "#2171B5", "#6BAED6", "#08519C", "#6BAED6", "#9ECAE1", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#9ECAE1", "#6BAED6", "#08519C", "#C6DBEF", "#6BAED6", "#C6DBEF", "#4292C6", "#2171B5", "#C6DBEF", "#C6DBEF", "#6BAED6", "#2171B5", "#6BAED6", "#4292C6", "#9ECAE1", "#4292C6", "#6BAED6", "#6BAED6", "#6BAED6", "#4292C6", "#4292C6", "#6BAED6", "#6BAED6", "#9ECAE1", "#4292C6", "#4292C6", "#9ECAE1", "#2171B5", "#4292C6", "#9ECAE1", "#9ECAE1")
+
+        }
+        palette[selected_y] <- "grey50"
+    }
+
+    return(palette)
+
+}
+
 .visualize.plot <- function(input.visualize_method,
                             visualize.data,
-                            input.visualize_year) {
+                            input.visualize_year,
+                            input.visualize_cellborder,
+                            indX,
+                            couD,
+                            noind,
+                            nocou,
+                            visualize.param,
+                            input.visualize_colorscheme,
+                            input.visualize_pivotmatrix) {
   if (input.visualize_method=="couXindS") {
     ## title <- "Domestic VA in Exports"
     title <- "Value-added created by imports"
@@ -163,19 +237,32 @@ visualize.param <- reactive({
     title <- "VA by Source Country and Source Industry"
   }
 
-  indX <- unique(unname(unlist(values$indagg[input$visualize_indX])))
-  palette <- colorRampPalette(c("grey20", twitterblue))(length(c(1:34))) # number of industries
-  palette[setdiff(c(1:34), indX)] <- "white"
+  if (input.visualize_pivotmatrix == TRUE) { # put countries in rows and industries in columns
+      visualize.data <- t(visualize.data)
+
+
+      selected_y <- couD
+      obs_y <- nocou
+  } else {
+      selected_y <- indX
+      obs_y <- noind
+  }
+
+  palette <- .visualize.color(colorscheme = input.visualize_colorscheme,
+                              selected_y = selected_y,
+                              obs_y = obs_y)
 
   op <- par(mar = c(3, 1, 2, 0)
             )
+
   mosaicplot(visualize.data,
              main = paste(title, input.visualize_year),
              color = palette,
-             las = 2
+             las = 2,
+             border = input.visualize_cellborder
              )
 
-  mtext(do.call(expression, visualize.param()),
+  mtext(do.call(expression, visualize.param),
         side = 1, # bottom
         line = 1:2 # smaller than par(mar[1])
         )
@@ -186,10 +273,21 @@ visualize.param <- reactive({
 
 output$visualize.plot <- renderPlot({
   ## .visualize.plot()
+    indX <- unique(unname(unlist(values$indagg[input$visualize_indX])))
+    couD <- unique(unname(unlist(values$couagg69[input$visualize_couD])))
+
   .visualize.plot(input.visualize_method = input$visualize_method,
                   visualize.data = visualize.data(),
                   ## input.visualize_year = input$visualize_year
-                  input.visualize_year = input$visualize_year[1]
+                  input.visualize_year = input$visualize_year[1],
+                  input.visualize_cellborder = input$visualize_cellborder,
+                  indX = indX,
+                  couD = couD,
+                  noind = values$noind,
+                  nocou = values$nocou,
+                  visualize.param = visualize.param(),
+                  input.visualize_colorscheme = input$visualize_colorscheme,
+                  input.visualize_pivotmatrix = input$visualize_pivotmatrix
                   )
 })
 
