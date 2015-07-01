@@ -1,0 +1,14 @@
+### stan-icio indicators
+
+Version 0.1 (09/08/2014)
+
+By: [OECD STI](http://www.oecd.org/sti/")
+[stan.contact@oecd.org](mailto:stan.contact@oecd.org?subject=STI/EAS%20Indicators)
+
+Built using [Shiny](http://www.rstudio.com/shiny/) by [Rstudio](http://www.rstudio.com/")
+
+Application structure based on [Radiant](vnijs.rady.ucsd.edu:3838/marketing/) by [Vincent Nijs](https://github.com/mostly-harmless)
+
+Maps created with [rCharts](http://rcharts.io/) by [Ramnath Vaidyanathan](https://github.com/ramnathv)
+
+The application source code is available on [github](https://github.com/bowerth/desk/tree/master/inst/industry)

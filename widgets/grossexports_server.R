@@ -50,12 +50,15 @@ grossexports.data <- reactive({
     DATA.ICIOeconCVB <- values[["DATA.ICIOeconCVB"]][[1]]
     DATA.ICIOeconGRTR <- values[["DATA.ICIOeconGRTR"]][[1]]
     ## DATA.ICIOeconGRTR <- isolate(values[["DATA.ICIOeconGRTR"]][[1]])
+    ## DATA.ICIOeconCVB <- isolate(values[["DATA.ICIOeconCVB"]][[1]])
 
     nocou <- values[["nocou"]]
     cou_add <- values[["cou_add"]]
     noind <- values[["noind"]]
 
+    ## year <- 2005
     cvB <- DATA.ICIOeconCVB[year - 1994, , ]
+    ## dim(cvB)
 
     ## - remove last column (discrepancy)
     ## - "conexc" reduce 69 columns to 62 columns
@@ -73,6 +76,7 @@ grossexports.data <- reactive({
                    horiz=FALSE,
                    dimnames=NULL)
 
+    ## element-wise multiplication with binary matrix: select elements from demand data
     temp.dmd <- apply(conv_nocoucouaddnoind_nocou * DATA.ICIOeconGRTR.62, 1, sum)
 
     EXGR_VABSCI <- cvB %*% temp.dmd

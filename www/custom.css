@@ -1,0 +1,9 @@
+.main-header .oecd-logo {
+  background: url('OECD_grey.png') no-repeat center center;
+  background-size: 100px;
+}
+
+.main-header .oecd-logo:hover {
+  background: url('OECD_white.png') no-repeat center center;
+  background-size: 100px;
+}
