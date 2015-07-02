@@ -62,7 +62,8 @@ dashboardHeader2 <- function(..., title = NULL, titleWidth = NULL, disable = FAL
               custom_css,
               style = if (disable) "display: none;",
               ## span(class = "logo", title),
-              a(href = "http://10.101.26.220/kit/", span(class = "logo")),
+              ## a(href = "http://10.101.26.220/kit/", span(class = "logo")),
+              a(href = "http://oecd-icio.cloudapp.net/", span(class = "logo")),
               tags$nav(class = "navbar navbar-static-top", role = "navigation",
                        ## Embed hidden icon so that we get the font-awesome dependency
                        span(shiny::icon("bars"), style = "display:none;"),
