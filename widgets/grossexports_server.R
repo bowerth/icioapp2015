@@ -127,10 +127,12 @@ grossexports.data <- reactive({
     temp3 <- temp1 / temp2
     ## temp <- cbind(dim_label, round(temp1, 1), round(temp2, 1), round(100 * temp3, 2))
     ## colnames(temp) <- c(dim_title, "VA by Exports", "Exports", "Ratio, in percent")
-    temp <- data.frame(dim_title = dim_label,
-                       "VA_by_Exports" = round(temp1, 1),
-                       "Exports" = round(temp2, 1),
-                       "Ratio_percent" = round(100 * temp3, 2))
+    temp <- data.frame(
+      index = seq(along = temp1),
+      dim_title = dim_label,
+      "VA_by_Exports" = round(temp1, 1),
+      "Exports" = round(temp2, 1),
+      "Ratio_percent" = round(100 * temp3, 2))
     names(temp) <- sub("dim_title", dim_title, names(temp))
     ## colnames(temp) <- c(dim_title, "VA by Exports", "Exports", "Ratio, in percent")
 
@@ -180,7 +182,7 @@ output$grossexports.barplot <-
       dim_title <- "Source Country"
     }
 
-    plot_title <- paste0('Value-added share in exports, by ', dim_title, ', ' ,input$grossexports_year[1])
+    plot_title <- paste0('Value-added share in exports, by ', dim_title, ', ' , input$grossexports_year[1], ' percent')
 
     barplot(
       ## c(grossexports.data()[c(1:dim_length), 4]),

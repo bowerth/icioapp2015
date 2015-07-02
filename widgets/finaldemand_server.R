@@ -123,10 +123,12 @@ finaldemand.data <- reactive({
     ## combine resulting values
     ## temp <- cbind(dim_label, round(temp1, 1), round(temp2, 1), round(temp3, 1))
     ## colnames(temp)<-c(dim_title, "VA by Domestic FD", "VALU", "VA by Foreign FD")
-    temp <- data.frame(dim_title = dim_label,
-                       "VA_by_Domestic_FD" = round(temp1, 1),
-                       "VALU" = round(temp2, 1),
-                       "VA_by_Foreign_FD" = round(temp3, 1))
+    temp <- data.frame(
+      index = seq(along = temp1),
+      dim_title = dim_label,
+      "VA_by_Domestic_FD" = round(temp1, 1),
+      "VALU" = round(temp2, 1),
+      "VA_by_Foreign_FD" = round(temp3, 1))
     names(temp) <- sub("dim_title", dim_title, names(temp))
 
     return(temp)

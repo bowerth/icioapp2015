@@ -110,6 +110,28 @@ load(file.path("data", "ConvAggInd.Rdata")) # load matrix "convAggInd" to calcul
 
 NameInd34_agg <- read.csv(file.path("data", "Ind+aggrInd.csv"), header = F) # length 51, corresponds to column names of "convAggInd"
 NameInd34_agg <- as.character(NameInd34_agg[, 1])
+## ## add industry labels
+## require(stan)
+## data(stanDim)
+## NameInd34_agg_label <- data.frame(ind = NameInd34_agg, stringsAsFactors = FALSE)
+## NameInd34_agg_label$label <- NA
+## for (i in seq(along = NameInd34_agg_label$ind)) {
+##   if (NameInd34_agg_label$ind[i] %in% as.character(STANi3.INDLABEL$ind)) NameInd34_agg_label$label[i] <- as.character(STANi3.INDLABEL$label[STANi3.INDLABEL$ind==NameInd34_agg_label$ind[i]])
+## }
+## NameInd34_agg_label$label[NameInd34_agg_label$ind=="C75T95"] <- "Non-market service industries"
+## NameInd34_agg_label$label[NameInd34_agg_label$ind=="C50T95"] <- "Service industries"
+## NameInd34_agg_label$label[NameInd34_agg_label$ind=="C45T95"] <- "Service industries including Construction"
+## NameInd34_agg_label$label[NameInd34_agg_label$ind=="C40T45"] <- "Electricity gas and, water supply, Construction"
+## write.csv(NameInd34_agg_label, file = file.path("data", "Ind+aggrInd_label.csv"), row.names = FALSE)
+
+## NameInd34_agg_label_icon <- NameInd34_agg_label
+## NameInd34_agg_label_icon$icon <- ""
+## write.csv(NameInd34_agg_label_icon, file = file.path("data", "Ind+aggrInd_label_icon.csv"), row.names = FALSE)
+
+NameInd34_agg_label_icon <- read.csv(file.path("data", "Ind+aggrInd_label_icon.csv"),
+                                header = TRUE,
+                                stringsAsFactor = FALSE) # length 51, corresponds to column names of "convAggInd"
+## NameInd34_agg <- as.character(NameInd34_agg[, 1]) # duplicate C10T14
 
 ## create colors
 twitterblue <- rgb(red = 66, green = 139, blue = 202, maxColorValue = 255)
