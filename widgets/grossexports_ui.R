@@ -37,15 +37,18 @@ grossexports.input <- column(width = 3,
                                         "Industry" = "ind",
                                         "Country" = "cou"))
                        ,
-                       htmlOutput("uiGe_bysource")
+                     htmlOutput("uiGe_bysource")
+                     ,
+                       downloadButton('grossexports_download_data', 'Download Data (csv)')
 
                    )
                    )
 
 grossexports.output <- column(width = 9,
-                    ## box(plotOutput("plot1", height = 250), width = NULL)
                               box(title = "Parameters", verbatimTextOutput("grossexports.summary"), width = NULL, collapsible = TRUE)
-                             ,
+                              ,
+                              box(plotOutput("grossexports.barplot", height = 250), width = NULL, collapsible = TRUE)
+                              ,
                               ## box(DT::dataTableOutput("grossexports.datatable"), width = NULL)
                               box(dataTableOutput("grossexports.datatable"), width = NULL)
                     )

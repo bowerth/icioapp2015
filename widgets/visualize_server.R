@@ -93,7 +93,8 @@ visualize_couXindS <- function(data.coef=values[["DATA.ICIOeconCVB"]][[1]],
 
   }
 
-  dimnames(result) <- list(rownames(convRegCou), NameInd34_agg[1:34, 1])
+  ## dimnames(result) <- list(rownames(convRegCou), NameInd34_agg[1:34, 1])
+  dimnames(result) <- list(rownames(convRegCou), NameInd34_agg[1:values[["noind"]]])
   return(result)
 }
 

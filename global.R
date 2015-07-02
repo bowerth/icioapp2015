@@ -109,6 +109,7 @@ load(file.path("data", "ConvAggInd.Rdata")) # load matrix "convAggInd" to calcul
 ## save(indagg, file = file.path(dbpath, "GitHub", "icioapp2015", "data", "indagg.rda"))
 
 NameInd34_agg <- read.csv(file.path("data", "Ind+aggrInd.csv"), header = F) # length 51, corresponds to column names of "convAggInd"
+NameInd34_agg <- as.character(NameInd34_agg[, 1])
 
 ## create colors
 twitterblue <- rgb(red = 66, green = 139, blue = 202, maxColorValue = 255)

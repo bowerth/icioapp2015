@@ -36,7 +36,8 @@ finaldemand.input <- column(width = 3,
                                         "Country" = "cou"))
                       ,
                        htmlOutput("uiFd_bysource")
-
+                     ,
+                       downloadButton('finaldemand_download_data', 'Download Data (csv)')
 
                    )
                    )
@@ -45,6 +46,8 @@ finaldemand.output <- column(width = 9,
                     ## box(plotOutput("plot1", height = 250), width = NULL)
                     ## box(dataTableOutput("finaldemand.datatable"), width = NULL)
                              box(title = "Parameters", verbatimTextOutput("finaldemand.summary"), width = NULL, collapsible = TRUE)
+                              ,
+                              box(plotOutput("finaldemand.barplot", height = 250), width = NULL, collapsible = TRUE)
                              ,
                              ## box(DT::dataTableOutput("finaldemand.datatable"), width = NULL)
                              box(dataTableOutput("finaldemand.datatable"), width = NULL)

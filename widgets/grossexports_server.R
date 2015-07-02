@@ -109,6 +109,14 @@ grossexports.data <- reactive({
         temp1 <- t(conv_nocounoind_nocou) %*% EXGR_VABSCI
         temp1 <- c(c(temp1) %*% convRegCou)
 
+        ## grossexports_dim_label <- reactive({
+        ##   if (input$grossexports_bysource=="ind") {
+        ##     NameInd34_agg
+        ##   } else if (input$grossexports_bysource=="cou") {
+        ##     colnames(convRegCou)
+        ##   }
+        ## })
+        
         ## todo: add country aggregates?
         temp2 <- rep(sum(temp.dmd), length(temp1))
         ## dim_label <- as.character(ui.icioDash.namereg.df[,1])
@@ -117,9 +125,16 @@ grossexports.data <- reactive({
     }
 
     temp3 <- temp1 / temp2
-    temp <- cbind(dim_label, round(temp1, 1), round(temp2, 1), round(100 * temp3, 2))
-    colnames(temp) <- c(dim_title, "VA by Exports", "Exports", "Ratio, in percent")
+    ## temp <- cbind(dim_label, round(temp1, 1), round(temp2, 1), round(100 * temp3, 2))
+    ## colnames(temp) <- c(dim_title, "VA by Exports", "Exports", "Ratio, in percent")
+    temp <- data.frame(dim_title = dim_label,
+                       "VA_by_Exports" = round(temp1, 1),
+                       "Exports" = round(temp2, 1),
+                       "Ratio_percent" = round(100 * temp3, 2))
+    names(temp) <- sub("dim_title", dim_title, names(temp))
+    ## colnames(temp) <- c(dim_title, "VA by Exports", "Exports", "Ratio, in percent")
 
+    
     return(temp)
 })
 
@@ -152,7 +167,35 @@ output$grossexports.summary <- renderPrint({
 
 })
 
-output$grossexports.datatable <-
+output$grossexports.barplot <-
+  renderPlot({
+
+    if (input$grossexports_bysource=="ind") {
+      dim_length <- values$noind
+      dim_label <- NameInd34_agg
+      dim_title <- "Source Industry"
+    } else if (input$grossexports_bysource=="cou") {
+      dim_length <- values$nocou
+      dim_label <- colnames(convRegCou)
+      dim_title <- "Source Country"
+    }
+
+    plot_title <- paste0('Value-added share in exports, by ', dim_title, ', ' ,input$grossexports_year[1])
+
+    barplot(
+      ## c(grossexports.data()[c(1:dim_length), 4]),
+      c(grossexports.data()[c(1:dim_length), "Ratio_percent"]),
+      beside = TRUE,
+      las = 2,
+      cex.names = .8,
+      names = dim_label[c(1:dim_length)],
+      col = twitterblue,
+      main = plot_title
+      )
+
+  })
+
+  output$grossexports.datatable <-
     ## DT::renderDataTable({
     renderDataTable({
     grossexports.data()
@@ -162,6 +205,20 @@ output$grossexports.datatable <-
        ## lengthMenu = c(70, 80),
        ## pageLength = 70)) # 62 countries plus 8 regions
 
+output$grossexports_download_data <- downloadHandler(
+    filename = function() {
+        paste0(
+          'icioapp2015_',
+          'grtr_',
+          input$grossexports_bysource,
+          '_',
+          input$grossexports_year[1],
+          '.csv')
+      },
+  content = function(file) {
+    write.csv(grossexports.data(), file, row.names = FALSE)
+  }
+  )
 
 output$uiGe_bysource <- renderUI({
     ## show all 34 source industries for selected sources country
