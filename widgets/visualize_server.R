@@ -350,10 +350,12 @@ output$visualize_download_chart <- downloadHandler(
 
       if (input$visualize_download_chart_format=="PDF") {
         pdf(file = file, width = 16, height = 9)
-      } else {
+      } else if (input$visualize_download_chart_format=="SVG") {
         svg(file = file, width = 16, height = 9)
+      } else if (input$visualize_download_chart_format=="PNG") {
+        png(file = file, width = 1152, height = 648)
       }
-      
+
          data.coef <- values[[input$visualize_data.coef]][[1]]
          data.demand <- values[[input$visualize_data.demand]][[1]]
          couX <- unique(unname(unlist(values$couagg69[input$visualize_couX])))
@@ -362,7 +364,8 @@ output$visualize_download_chart <- downloadHandler(
          visualize_method <- input$visualize_method
 
       ## ## turn off multiplot in favor of svg download
-       ## for (yr in c(input$visualize_year[1]:input$visualize_year[2])) {
+      ## for (yr in c(input$visualize_year[1]:input$visualize_year[2])) {
+      yr <- input$visualize_year[1]
 
          data.plot.yr <- .visualize.data(data.coef = data.coef,
                                          data.demand = data.demand,
@@ -389,9 +392,9 @@ output$visualize_download_chart <- downloadHandler(
                          input.visualize_colorscheme = input$visualize_colorscheme,
                          input.visualize_pivotmatrix = input$visualize_pivotmatrix
                          )
-         
+
   ## } # multiplot end
-  
+
        dev.off()
     }
 )

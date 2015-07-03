@@ -47,7 +47,10 @@ visualize.input <- column(width = 3,
                      ,
                      downloadButton("visualize_download_chart", "Download Chart")
                      ,
-                     radioButtons("visualize_download_chart_format", "Select Chart Format", c("PDF", "SVG"), selected = "PDF", inline = TRUE)
+                     radioButtons("visualize_download_chart_format", "Select Chart Format",
+                                  c("PDF", "PNG", "SVG"),
+                                  selected = "PDF",
+                                  inline = TRUE)
                      ,
                      ## helpText("\nChart download for selected time period")
                      helpText("\nUse web browser to display SVG files")
