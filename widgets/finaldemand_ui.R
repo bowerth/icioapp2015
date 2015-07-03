@@ -4,11 +4,18 @@ finaldemand.input <- column(width = 3,
                        ## title = "Controls",
                        ## sliderInput("slider", "Number of observations:", 1, 100, 50)
 
-                       selectInput("finaldemand_year", "Year",
-                                   choices = c(1995:2011),
-                                   selected = 2005)
-                      ,
-                       ## #japanese VA by Japanese FD
+                      ##  selectInput("finaldemand_year", "Year",
+                      ##              choices = c(1995:2011),
+                      ##              selected = 2005)
+                      ## ,
+                     sliderInput("finaldemand_year", "Year",
+                                 min = 1995, max = 2011,
+                                 value = c(2005),
+                                 step = 1, sep="",
+                                 animate = TRUE
+                                 )
+                     ,
+                     ## #japanese VA by Japanese FD
                        selectInput("finaldemand_indX", "Demand Industry",
                                    ## choices = c(1:isolate(values[["noind"]])), selected = c(1, 3),
                                    ## multiple = TRUE),

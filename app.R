@@ -14,8 +14,10 @@ source("global.R")
 source(file.path("R", "dropdownMenu2.R"), local = TRUE)
 source(file.path("R", "dashboardHeader2.R"), local = TRUE)
 
+## use modified function to include link
 ## header <- dashboardHeader2(titleWidth='17%') # titleWidth ignored
-header <- dashboardHeader2(titleWidth='17%', dropdownMenuOutput("messageMenu")) # titleWidth ignored
+## header <- dashboardHeader2(titleWidth='17%', dropdownMenuOutput("messageMenu")) # titleWidth ignored
+header <- dashboardHeader2(dropdownMenuOutput("messageMenu")) # use custom.css for modifications to preserver after window resizing
 
 
 
@@ -62,8 +64,8 @@ body <- dashboardBody(
   ##     tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")
   ## )
   ## ,
-  ## includeCSS("www/custom.css")
-  ## ,
+  includeCSS("www/custom.css")
+  ,
   ## tags$head(tags$style(HTML('
   ##     .main-header .logo {
   ##       font-family: "Georgia", Times, "Times New Roman", serif;

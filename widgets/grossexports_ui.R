@@ -6,10 +6,17 @@ grossexports.input <- column(width = 3,
 
                        ## #japanese VA by Japanese FD
 
-                       selectInput("grossexports_year", "Year",
-                                   choices = c(1995:2011), selected = 2005)
-                      ,
-                       selectInput("grossexports_indX", "Export Industry",
+                      ##  selectInput("grossexports_year", "Year",
+                      ##              choices = c(1995:2011), selected = 2005)
+                      ## ,
+                     sliderInput("grossexports_year", "Year",
+                                 min = 1995, max = 2011,
+                                 value = c(2005),
+                                 step = 1, sep="",
+                                 animate = TRUE
+                                 )
+                     ,
+                     selectInput("grossexports_indX", "Export Industry",
                                    ## choices = c(1:isolate(values[["noind"]])),
                                    ## selected = c(1, 3),
                                    choices = isolate(names(values$indagg)),

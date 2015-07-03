@@ -6,9 +6,11 @@ visualize.input <- column(width = 3,
                      sliderInput("visualize_year", "Year",
                                  min = 1995, max = 2011,
                                  ## value = 1995,
-                                 value = c(1995, 2011),
+                                 ## value = c(1995, 2011),
+                                 value = c(2005),
                                  step = 1, sep="", # format="#" is old shiny
-                                 animate = TRUE)
+                                 animate = TRUE
+                                 )
                      ,
                      selectInput("visualize_data.coef", "Coefficient Data",
                                    choices = c("CVB" = "DATA.ICIOeconCVB"),
@@ -41,22 +43,24 @@ visualize.input <- column(width = 3,
                                  choices = isolate(names(values$couagg)),
                                  selected = "NAFTA", multiple = TRUE) # CAN
                      ,
-                       downloadButton('visualize_download_data', 'Download Data (csv)')
+                       downloadButton("visualize_download_data", "Download Data (csv)")
                      ,
-                     downloadButton('visualize_download_chart', 'Download Charts (pdf)')
-                       ,
-                       selectInput('visualize_colorscheme', 'Color Scheme',
+                     downloadButton("visualize_download_chart", "Download Chart")
+                     ,
+                     radioButtons("visualize_download_chart_format", "Select Chart Format", c("PDF", "SVG"), selected = "PDF", inline = TRUE)
+                     ,
+                     ## helpText("\nChart download for selected time period")
+                     helpText("\nUse web browser to display SVG files")
+                     ,
+                       selectInput("visualize_colorscheme", "Color Scheme",
                                    choices = c("continuous", "discrete"),
                                    ## selected = "blues",
                                    selected = "discrete",
                                    multiple = FALSE)
                      ,
-                       checkboxInput('visualize_cellborder', 'Cell Borders', value = TRUE)
+                       checkboxInput("visualize_cellborder", "Cell Borders", value = TRUE)
                        ,
-                       checkboxInput('visualize_pivotmatrix', 'Swap x- and y-axes', value = FALSE)
-                      ,
-
-                     helpText('\nChart download for selected time period')
+                       checkboxInput("visualize_pivotmatrix", "Swap x- and y-axes", value = FALSE)
                    )
                    )
 

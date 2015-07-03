@@ -14,7 +14,7 @@ dropdownMenu2 <- function(...,
   if (is.null(icon)) {
     icon <- switch(type,
       ## messages = shiny::icon("envelope"),
-      messages = shiny::icon("cubes"),
+      messages = shiny::icon("level-down"),
       notifications = shiny::icon("warning"),
       tasks = shiny::icon("tasks")
     )

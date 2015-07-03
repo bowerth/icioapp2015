@@ -1,4 +1,4 @@
-## shiny::runApp(file.path(dbpath, "GitHub", "icioapp2015"), launch.browser = TRUE, port = 3838)
+## shiny::runApp(file.path(dbpath, "GitHub", "icioapp2015"), launch.browser = FALSE, port = 3838)
 ## source(file.path(dbpath, "GitHub", "icioapp2015", "master.R"))
 
 ## install.packages("shinydashboard")

@@ -1,11 +1,13 @@
+icon.df <- NameInd34_agg_label_icon[c(1:isolate(values$noind)),] # include Total
+
 messageData <- data.frame(
   ## from = c("me", "you"),
-  from = NameInd34_agg_label_icon$ind,
+  from = icon.df$ind,
   ## message = c("message text 1", "message text 2")
-  message = NameInd34_agg_label_icon$label
+  message = icon.df$label
   ,
   ## icon = c("question", "life-saver")
-  icon = NameInd34_agg_label_icon$icon
+  icon = icon.df$icon
   )
 
 output$messageMenu <- renderMenu({

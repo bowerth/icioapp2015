@@ -18,15 +18,17 @@ dashboardHeader2 <- function(..., title = NULL, titleWidth = NULL, disable = FAL
           margin-left: _WIDTH_;
         }
       */
-        .main-header .logo {
+      /*  .skin-blue .main-header .logo {
           /* width: _WIDTH_; */
           background: url(\'OECD_white.png\') no-repeat center center;
+          background-color: #367fa9;
           background-size: 100px;
+          border-bottom: 0 solid transparent;
         }
-
-       /* changing .logo:hover seems to have no effect - logo disappears when hovering over... */
-
-        .main-header .navbar-custom-title {
+      */
+      /* changing .logo:hover seems to have no effect - logo disappears when hovering over... */
+      
+      /* .main-header .navbar-custom-title {
           text-align: center;
           color: white;
           /* copy from .main-header .logo */
@@ -40,7 +42,7 @@ dashboardHeader2 <- function(..., title = NULL, titleWidth = NULL, disable = FAL
          overflow: hidden;
          padding: 0 15px;
         }
-
+      */
       }
     '))))
   }

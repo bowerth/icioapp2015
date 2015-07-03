@@ -342,19 +342,28 @@ output$visualize_download_chart <- downloadHandler(
         paste0(## input$visualize_year,
                'icioapp2015_', # namereg[as.numeric(input$couVA)],
                input$visualize_method,
-               '.pdf')
+               ## '.pdf'
+               paste0('.', tolower(input$visualize_download_chart_format))
+               )
     },
     content = function(file) {
-       pdf(file = file, width = 16, height = 9)
+
+      if (input$visualize_download_chart_format=="PDF") {
+        pdf(file = file, width = 16, height = 9)
+      } else {
+        svg(file = file, width = 16, height = 9)
+      }
+      
          data.coef <- values[[input$visualize_data.coef]][[1]]
          data.demand <- values[[input$visualize_data.demand]][[1]]
          couX <- unique(unname(unlist(values$couagg69[input$visualize_couX])))
          indX <- unique(unname(unlist(values$indagg[input$visualize_indX])))
          couD <- unique(unname(unlist(values$couagg[input$visualize_couD])))
          visualize_method <- input$visualize_method
-       ## for (yr in c(1995, 1996)) {
-       for (yr in c(input$visualize_year[1]:input$visualize_year[2])) {
-         ## year <- as.numeric(input$visualize_year)
+
+      ## ## turn off multiplot in favor of svg download
+       ## for (yr in c(input$visualize_year[1]:input$visualize_year[2])) {
+
          data.plot.yr <- .visualize.data(data.coef = data.coef,
                                          data.demand = data.demand,
                                          year = yr, # loop here
@@ -381,7 +390,8 @@ output$visualize_download_chart <- downloadHandler(
                          input.visualize_pivotmatrix = input$visualize_pivotmatrix
                          )
          
-       }
+  ## } # multiplot end
+  
        dev.off()
     }
 )
