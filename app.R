@@ -44,11 +44,11 @@ header <- dashboardHeader2(dropdownMenuOutput("messageMenu")) # use custom.css f
 sidebar <- dashboardSidebar(
   sidebarMenu(
     ## http://fortawesome.github.io/Font-Awesome/icons/
-        menuItem("Gross Exports", tabName = "grossexports", icon = icon("th"))
+        menuItem("Gross Exports related indicators", tabName = "grossexports", icon = icon("th"))
         ,
-        menuItem("Final Demand", tabName = "finaldemand", icon = icon("th"))
+        menuItem("Final Demand related indicators", tabName = "finaldemand", icon = icon("th"))
         ,
-        menuItem("Visualize", tabName = "visualize", icon = icon("th"))
+        menuItem("Visualize indicators", tabName = "visualize", icon = icon("th"))
        ,
         menuItem("About", tabName = "about", icon = icon("info")) # info-circle
         )
@@ -79,7 +79,7 @@ body <- dashboardBody(
     tabItem(tabName = "about",
             about.output)
     ,
-    
+
     tabItem(tabName = "grossexports",
                 fluidRow(
                     grossexports.input,
@@ -98,7 +98,7 @@ body <- dashboardBody(
                     visualize.output)
                 )
     ## ,
-   
+
     )
   )
 
