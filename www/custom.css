@@ -22,3 +22,6 @@
     overflow: hidden;
     padding: 0 15px;
 }
+.navbar-nav .messages-menu .dropdown-menu li .menu, .navbar-nav .notifications-menu .dropdown-menu li .menu, .navbar-nav .tasks-menu .dropdown-menu li .menu {
+    max-height: 800px;
+}

@@ -230,7 +230,8 @@ visualize.param <- reactive({
                             nocou,
                             visualize.param,
                             input.visualize_colorscheme,
-                            input.visualize_pivotmatrix) {
+                            input.visualize_pivotmatrix
+                            ) {
   if (input.visualize_method=="couXindS") {
     ## title <- "Domestic VA in Exports"
     title <- "Value-added created by imports"
@@ -240,7 +241,6 @@ visualize.param <- reactive({
 
   if (input.visualize_pivotmatrix == TRUE) { # put countries in rows and industries in columns
       visualize.data <- t(visualize.data)
-
 
       selected_y <- couD
       obs_y <- nocou
@@ -253,24 +253,43 @@ visualize.param <- reactive({
                               selected_y = selected_y,
                               obs_y = obs_y)
 
-  op <- par(mar = c(3, 1, 2, 0)
-            )
+    op <- par(mar = c(3, 1, 2, 0)
+              )
 
-  mosaicplot(visualize.data,
-             main = paste(title, input.visualize_year),
-             color = palette,
-             las = 2,
-             border = input.visualize_cellborder
-             )
+    mosaicplot(visualize.data,
+               main = paste(title, input.visualize_year),
+               color = palette,
+               las = 2,
+               border = input.visualize_cellborder
+               )
 
-  mtext(do.call(expression, visualize.param),
-        side = 1, # bottom
-        line = 1:2 # smaller than par(mar[1])
-        )
+    mtext(do.call(expression, visualize.param),
+          side = 1, # bottom
+          line = 1:2 # smaller than par(mar[1])
+          )
 
-  par(op)
-  ## return(p)
+    par(op)
+    ## return(p)
+
 }
+
+
+.visualize.heatmap <- function(visualize.data) {
+
+  d <- d3heatmap(t(visualize.data),
+                 colors = colorRampPalette(c("grey90", twitterblue, "grey20"))(20)
+                 )
+    return(d)
+
+}
+
+
+output$visualize.heatmap <- renderD3heatmap({
+
+  .visualize.heatmap(visualize.data = visualize.data())
+  
+})
+
 
 output$visualize.plot <- renderPlot({
   ## .visualize.plot()

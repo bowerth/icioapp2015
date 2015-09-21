@@ -15,5 +15,9 @@ about.output <- list(
   p("Built using", a(href = "http://www.rstudio.com/shiny/", "shiny"),
     "and", a(href = "http://rstudio.github.io/shinydashboard/", "shinydashboard"),
     "by", a(href = "http://www.rstudio.com/", "RStudio"))
+  ,
+  p("Featured R packages:", a(href = "https://github.com/rstudio/d3heatmap/", "d3heatmap"))
+  ,
+  p("Other features:", a(href = "https://fortawesome.github.io/Font-Awesome/", "Font-Awesome"))
   )
 
