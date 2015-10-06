@@ -3,15 +3,22 @@ visualize.input <- column(width = 3,
                           box(
                             width = NULL,
                             ## title = "Controls",
-                            sliderInput("visualize_year", "Year",
-                                        min = 1995, max = 2011,
-                                        ## value = 1995,
-                                        ## value = c(1995, 2011),
-                                        value = c(2005),
-                                        step = 1, sep="", # format="#" is old shiny
-                                        animate = TRUE
-                                        )
-                            ,
+                            ## sliderInput("visualize_year", "Year",
+                            ##             min = 1995, max = 2011,
+                            ##             ## value = 1995,
+                            ##             ## value = c(1995, 2011),
+                            ##             value = c(2005),
+                            ##             step = 1, sep="", # format="#" is old shiny
+                            ##             animate = TRUE
+                            ##             )
+                            ## ,
+                              selectInput("visualize_year", "Year",
+                                          choices = c(1995, 2000, 2005, 2008, 2009, 2010, 2011),
+                                          selected = 2005,
+                                          multiple = FALSE,
+                                          selectize = TRUE
+                                          )
+                             ,
                             selectInput("visualize_data.coef", "Coefficient Data",
                                         choices = c("CVB" = "DATA.ICIOeconCVB"),
                                         selected = "DATA.ICIOeconCVB", multiple = FALSE)

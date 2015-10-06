@@ -16,7 +16,7 @@ if (Sys.info()[["user"]]%in%c("werth_b", "z930")) {
 ## testingRadiant <- FALSE
 require(shiny)
 ## source("global.R")
-## require(shinydashboard)
+require(shinydashboard)
 ## require(DT)
 ## sessionInfo()
 

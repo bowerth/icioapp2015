@@ -9,11 +9,18 @@ grossexports.input <- column(width = 3,
                       ##  selectInput("grossexports_year", "Year",
                       ##              choices = c(1995:2011), selected = 2005)
                       ## ,
-                     sliderInput("grossexports_year", "Year",
-                                 min = 1995, max = 2011,
-                                 value = c(2005),
-                                 step = 1, sep="",
-                                 animate = TRUE
+                     ## sliderInput("grossexports_year", "Year",
+                     ##             min = 1995, max = 2011,
+                     ##             value = c(2005),
+                     ##             step = 1, sep="",
+                     ##             animate = TRUE
+                     ##             )
+                     ## ,
+                     selectInput("grossexports_year", "Year",
+                                 choices = c(1995, 2000, 2005, 2008, 2009, 2010, 2011),
+                                 selected = 2005,
+                                 multiple = FALSE,
+                                 selectize = TRUE
                                  )
                      ,
                      selectInput("grossexports_indX", "Export Industry",
