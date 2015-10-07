@@ -27,7 +27,7 @@ dashboardHeader2 <- function(..., title = NULL, titleWidth = NULL, disable = FAL
         }
       */
       /* changing .logo:hover seems to have no effect - logo disappears when hovering over... */
-      
+
       /* .main-header .navbar-custom-title {
           text-align: center;
           color: white;
@@ -52,7 +52,8 @@ dashboardHeader2 <- function(..., title = NULL, titleWidth = NULL, disable = FAL
               style = if (disable) "display: none;",
               ## span(class = "logo", title),
               ## a(href = "http://10.101.26.220/kit/", span(class = "logo")),
-              a(href = "http://oecd-icio.cloudapp.net/", span(class = "logo")),
+              ## a(href = "http://oecd-icio.cloudapp.net/", span(class = "logo")),
+              a(href = "http://www.icio.oecd.org/", span(class = "logo")),
               tags$nav(class = "navbar navbar-static-top", role = "navigation",
                        ## Embed hidden icon so that we get the font-awesome dependency
                        span(shiny::icon("bars"), style = "display:none;"),

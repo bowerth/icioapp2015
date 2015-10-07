@@ -156,6 +156,7 @@ visualize.param <- reactive({
 
 .visualize.color <- function(colorscheme,
                              ## indX,
+                             highlight_y,
                              selected_y,
                              obs_y) {
 
@@ -165,7 +166,9 @@ visualize.param <- reactive({
         ## ## remove color for all non-selected
         ## palette[setdiff(c(1:obs_y), selected_y)] <- "grey90"
         ## remove color for all selected
-        palette[selected_y] <- "grey50"
+        if (highlight_y == TRUE) {
+            palette[selected_y] <- "grey50"
+        }
 
     } else if (colorscheme == "discrete") {
 
@@ -213,7 +216,9 @@ visualize.param <- reactive({
             palette <- c("#9ECAE1", "#6BAED6", "#6BAED6", "#08519C", "#C6DBEF", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#9ECAE1", "#6BAED6", "#2171B5", "#2171B5", "#6BAED6", "#08519C", "#6BAED6", "#9ECAE1", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#9ECAE1", "#6BAED6", "#08519C", "#C6DBEF", "#6BAED6", "#C6DBEF", "#4292C6", "#2171B5", "#C6DBEF", "#C6DBEF", "#6BAED6", "#2171B5", "#6BAED6", "#4292C6", "#9ECAE1", "#4292C6", "#6BAED6", "#6BAED6", "#6BAED6", "#4292C6", "#4292C6", "#6BAED6", "#6BAED6", "#9ECAE1", "#4292C6", "#4292C6", "#9ECAE1", "#2171B5", "#4292C6", "#9ECAE1", "#9ECAE1")
 
         }
-        palette[selected_y] <- "grey50"
+        if (highlight_y == TRUE) {
+            palette[selected_y] <- "grey50"
+        }
     }
 
     return(palette)
@@ -229,6 +234,7 @@ visualize.param <- reactive({
                             noind,
                             nocou,
                             visualize.param,
+                            input.visualize_highlight_y,
                             input.visualize_colorscheme,
                             input.visualize_pivotmatrix
                             ) {
@@ -250,6 +256,7 @@ visualize.param <- reactive({
   }
 
   palette <- .visualize.color(colorscheme = input.visualize_colorscheme,
+                              highlight_y  = input.visualize_highlight_y,
                               selected_y = selected_y,
                               obs_y = obs_y)
 
@@ -287,7 +294,7 @@ visualize.param <- reactive({
 output$visualize.heatmap <- renderD3heatmap({
 
   .visualize.heatmap(visualize.data = visualize.data())
-  
+
 })
 
 
@@ -306,6 +313,7 @@ output$visualize.plot <- renderPlot({
                   noind = values$noind,
                   nocou = values$nocou,
                   visualize.param = visualize.param(),
+                  input.visualize_highlight_y = input$visualize_highlight_y,
                   input.visualize_colorscheme = input$visualize_colorscheme,
                   input.visualize_pivotmatrix = input$visualize_pivotmatrix
                   )

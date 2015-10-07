@@ -14,7 +14,8 @@ visualize.input <- column(width = 3,
                             ## ,
                               selectInput("visualize_year", "Year",
                                           choices = c(1995, 2000, 2005, 2008, 2009, 2010, 2011),
-                                          selected = 2005,
+                                          ## selected = 2005,
+                                          selected = 2011,
                                           multiple = FALSE,
                                           selectize = TRUE
                                           )
@@ -36,19 +37,23 @@ visualize.input <- column(width = 3,
 
                             selectInput("visualize_indX", "Export or Demand Industry",
                                         choices = isolate(names(values$indagg)),
-                                        selected = "C15T37",
+                                        ## selected = "C15T37",
+                                        selected = "CTOTAL",
                                         multiple = TRUE)
                             ,
 
 
                             selectInput("visualize_couX", "Product Origin or Export Country/Region",
                                         choices = isolate(names(values$couagg)),
-                                        selected = c("MEX", "CHN"),
+                                        ## selected = c("MEX", "CHN"),
+                                        selected = "WOR",
                                         multiple = TRUE)
                             ,
                             selectInput("visualize_couD", "Demand Country/Region",
                                         choices = isolate(names(values$couagg)),
-                                        selected = "NAFTA", multiple = TRUE) # CAN
+                                        ## selected = "NAFTA",
+                                        selected = "WOR",
+                                        multiple = TRUE) # CAN
                             ,
                             ## selectInput("visualize_charttype", "Chart Type",
                             ##             choices = c("mosaic", "heatmap"),
@@ -69,9 +74,11 @@ visualize.input <- column(width = 3,
                             ,
                             selectInput("visualize_colorscheme", "Color Scheme",
                                         choices = c("continuous", "discrete"),
-                                        ## selected = "blues",
-                                        selected = "discrete",
+                                        ## selected = "discrete",
+                                        selected = "continuous",
                                         multiple = FALSE)
+                            ,
+                            checkboxInput("visualize_highlight_y", "Highlight Selection", value = FALSE)
                             ,
                             checkboxInput("visualize_cellborder", "Cell Borders", value = TRUE)
                             ,
@@ -80,7 +87,7 @@ visualize.input <- column(width = 3,
                           )
 
 visualize.output <- column(width = 9,
-                           box(width = NULL, title = "Parameters", collapsible = TRUE,
+                           box(width = NULL, title = "Parameters", collapsible = TRUE, collapsed = TRUE,
                                verbatimTextOutput("visualize.summary"))
                            ,
                            box(width = NULL, collapsible = TRUE,

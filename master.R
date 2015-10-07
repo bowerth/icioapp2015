@@ -20,6 +20,14 @@ require(shinydashboard)
 ## require(DT)
 ## sessionInfo()
 
+## check md5 sums
+## https://stat.ethz.ch/R-manual/R-devel/library/tools/html/md5sum.html
+## library(tools)
+## tools::md5sum(files = file.path("data", "DATA.ICIOeconCVB.Rdata"))
+## tools::md5sum(files = file.path("data", "DATA.ICIOeconFDTTLexINVNT.Rdata"))
+## tools::md5sum(file.path("data", "DATA.ICIOeconGRTR.Rdata"))
+
+
 source("app.R")
 
 shinyApp(ui, server)
