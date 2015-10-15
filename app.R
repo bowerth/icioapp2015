@@ -5,6 +5,7 @@ library(shiny)
 library(shinydashboard)
 ## devtools::install_github("rstudio/d3heatmap")
 library(d3heatmap)
+library(threejs)
 
 source("global.R")
 
@@ -46,6 +47,8 @@ header <- dashboardHeader2(dropdownMenuOutput("messageMenu")) # use custom.css f
 sidebar <- dashboardSidebar(
   sidebarMenu(
     ## http://fortawesome.github.io/Font-Awesome/icons/
+      ## menuItem("Backward Linkage", tabName = "backlink", icon = icon("th"))
+      ## ,
         menuItem("Visualize indicators", tabName = "visualize", icon = icon("th"))
        ,
         menuItem("Gross Exports related indicators", tabName = "grossexports", icon = icon("th"))
@@ -56,6 +59,7 @@ sidebar <- dashboardSidebar(
         )
 )
 
+## source(file.path("widgets", "backlink_ui.R"), local = TRUE)
 source(file.path("widgets", "grossexports_ui.R"), local = TRUE)
 source(file.path("widgets", "finaldemand_ui.R"), local = TRUE)
 source(file.path("widgets", "visualize_ui.R"), local = TRUE)
@@ -99,6 +103,12 @@ body <- dashboardBody(
                     visualize.input,
                     visualize.output)
                 )
+    ##   ,
+    ## tabItem(tabName = "backlink",
+    ##             fluidRow(
+    ##                 backlink.input,
+    ##                 backlink.output)
+    ##             )
     ## ,
 
     )
@@ -117,6 +127,7 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
 
+    ## source(file.path("widgets", "backlink_server.R"), local = TRUE)
     source(file.path("widgets", "grossexports_server.R"), local = TRUE)
     source(file.path("widgets", "finaldemand_server.R"), local = TRUE)
     source(file.path("widgets", "visualize_server.R"), local = TRUE)

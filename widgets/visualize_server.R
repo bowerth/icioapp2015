@@ -35,7 +35,14 @@ visualize_couSindS <- function(data.coef=values[["DATA.ICIOeconCVB"]][[1]],
     return(result.m)
 }
 
-
+## data.coef=isolate(values[["DATA.ICIOeconCVB"]][[1]])
+## data.demand=isolate(values[["DATA.ICIOeconGRTR"]][[1]])
+## nocou=isolate(values[["nocou"]])
+## cou_add=isolate(values[["cou_add"]])
+## noind=isolate(values[["noind"]])
+## couD <- 34
+## indX <- 18
+## year <- 2011
 ## domestic VA in exports
 visualize_couXindS <- function(data.coef=values[["DATA.ICIOeconCVB"]][[1]],
                      data.demand=values[["DATA.ICIOeconGRTR"]][[1]],
@@ -65,6 +72,31 @@ visualize_couXindS <- function(data.coef=values[["DATA.ICIOeconCVB"]][[1]],
     return(result.m)
 }
 
+## data.coef=isolate(values[["DATA.ICIOeconB"]][[1]])
+## data.demand=isolate(values[["DATA.ICIOeconFDTTLdisc"]][[1]])
+## year <- 2011
+## str(data.demand)
+## str(values)
+visualize_backlink <- function(
+    data.coef=values[["DATA.ICIOeconB"]][[1]],
+    data.demand=values[["DATA.ICIOeconFDTTLdisc"]][[1]],
+    year) {
+
+    ## F = apply(DATA.ICIOeconFDTTLdisc[2011-1994,,],1,sum)
+    F = apply(data.demand[year-1994, , ], 1, sum)
+    ## B = DATA.ICIOeconB[2011-1994,,]
+    B = data.coef[year-1994, , ]
+    cF =  concixei %*% F
+    ## str(concixei)
+    cBF = apply (concixei %*% B %*% diag(F), 2,sum) %*% t(concixei)
+    res <- round(c(cBF) / c(cF),5)
+    ## result.m <- matrix(res, nrow = 34, byrow = FALSE)
+    result.m <- matrix(res, ncol = 34, byrow = TRUE)
+    result.m[is.nan(result.m)] <- 1
+    ## matrix(res, ncol = 34, byrow = TRUE)
+    return(result.m)
+}
+
 
 .visualize.data <- function(data.coef,
                             data.demand,
@@ -91,12 +123,29 @@ visualize_couXindS <- function(data.coef=values[["DATA.ICIOeconCVB"]][[1]],
                                  indX = indX,
                                  year = year)
 
+  } else if (visualize_method=="backlink") {
+      result <- visualize_backlink(year = year)
   }
 
   ## dimnames(result) <- list(rownames(convRegCou), NameInd34_agg[1:34, 1])
   dimnames(result) <- list(rownames(convRegCou), NameInd34_agg[1:values[["noind"]]])
   return(result)
 }
+
+.visualize.couX <- reactive({
+  couX <- unique(unname(unlist(values$couagg69[input$visualize_couX])))
+  return(couX)
+})
+
+.visualize.indX <- reactive({
+    indX <- unique(unname(unlist(values$indagg[input$visualize_indX])))
+    return(indX)
+})
+
+.visualize.couD <- reactive({
+  couD <- unique(unname(unlist(values$couagg[input$visualize_couD])))
+  return(couD)
+})
 
 
 visualize.data <- reactive({
@@ -106,21 +155,24 @@ visualize.data <- reactive({
   data.coef <- values[[input$visualize_data.coef]][[1]]
   data.demand <- values[[input$visualize_data.demand]][[1]]
 
-  couX <- unique(unname(unlist(values$couagg69[input$visualize_couX])))
-  indX <- unique(unname(unlist(values$indagg[input$visualize_indX])))
-  couD <- unique(unname(unlist(values$couagg[input$visualize_couD])))
+  couX <- .visualize.couX()
+  indX <- .visualize.indX()
+  couD <- .visualize.couD()
 
   visualize_method <- input$visualize_method
 
-  .visualize.data(data.coef = data.coef,
-                  data.demand = data.demand,
-                  year = year,
-                  couX = couX,
-                  indX = indX,
-                  couD = couD,
-                  visualize_method = visualize_method,
-                  convRegCou = convRegCou,
-                  NameInd34_agg = NameInd34_agg)
+  visualize.data <- .visualize.data(data.coef = data.coef,
+                                    data.demand = data.demand,
+                                    year = year,
+                                    couX = couX,
+                                    indX = indX,
+                                    couD = couD,
+                                    visualize_method = visualize_method,
+                                    convRegCou = convRegCou,
+                                    NameInd34_agg = NameInd34_agg)
+
+  return(visualize.data)
+
 })
 
 ## ## debug
@@ -167,7 +219,8 @@ visualize.param <- reactive({
         ## palette[setdiff(c(1:obs_y), selected_y)] <- "grey90"
         ## remove color for all selected
         if (highlight_y == TRUE) {
-            palette[selected_y] <- "grey50"
+            ## palette[selected_y] <- "grey50"
+            palette[selected_y] <- highlightcol
         }
 
     } else if (colorscheme == "discrete") {
@@ -217,7 +270,8 @@ visualize.param <- reactive({
 
         }
         if (highlight_y == TRUE) {
-            palette[selected_y] <- "grey50"
+            ## palette[selected_y] <- "grey50"
+            palette[selected_y] <- highlightcol
         }
     }
 
@@ -225,7 +279,43 @@ visualize.param <- reactive({
 
 }
 
+.visualize.palette <- reactive({
+
+    if (input$visualize_pivotmatrix == TRUE) { # put countries in rows and industries in columns
+
+      selected_y <- .visualize.couD()
+      obs_y <- values$nocou
+  } else {
+      selected_y <- .visualize.indX()
+      obs_y <- values$noind
+  }
+
+  palette <- .visualize.color(colorscheme = input$visualize_colorscheme,
+                              highlight_y  = input$visualize_highlight_y,
+                              selected_y = selected_y,
+                              obs_y = obs_y)
+
+      return(palette)
+})
+
+
+.visualize.title <- reactive({
+
+    if (input$visualize_method=="couXindS") {
+    ## title <- "Domestic VA in Exports"
+      title <- "Value-added created by imports"
+  } else if (input$visualize_method=="couSindS") {
+      title <- "VA by Source Country and Source Industry"
+  } else if (input$visualize_method=="backlink") {
+      title <- "Backward Linkage weighted by total Final Demand"
+  }
+
+    return(title)
+
+})
+
 .visualize.plot <- function(input.visualize_method,
+                            title,
                             visualize.data,
                             input.visualize_year,
                             input.visualize_cellborder,
@@ -234,38 +324,46 @@ visualize.param <- reactive({
                             noind,
                             nocou,
                             visualize.param,
-                            input.visualize_highlight_y,
                             input.visualize_colorscheme,
-                            input.visualize_pivotmatrix
+                            input.visualize_highlight_y,
+                            input.visualize_pivotmatrix,
+                            palette2
                             ) {
-  if (input.visualize_method=="couXindS") {
-    ## title <- "Domestic VA in Exports"
-    title <- "Value-added created by imports"
-  } else {
-    title <- "VA by Source Country and Source Industry"
-  }
+  ## if (input.visualize_method=="couXindS") {
+  ##   ## title <- "Domestic VA in Exports"
+  ##     title <- "Value-added created by imports"
+  ## } else if (input.visualize_method=="couSindS") {
+  ##     title <- "VA by Source Country and Source Industry"
+  ## } else if (input.visualize_method=="backlink") {
+  ##     title <- "Backward Linkage weighted by total Final Demand"
+  ## }
+
+  ## if (input.visualize_pivotmatrix == TRUE) { # put countries in rows and industries in columns
+  ##     visualize.data <- t(visualize.data)
+
+  ##     selected_y <- couD
+  ##     obs_y <- nocou
+  ## } else {
+  ##     selected_y <- indX
+  ##     obs_y <- noind
+  ## }
+
+  ## palette <- .visualize.color(colorscheme = input.visualize_colorscheme,
+  ##                             highlight_y  = input.visualize_highlight_y,
+  ##                             selected_y = selected_y,
+  ##                             obs_y = obs_y)
 
   if (input.visualize_pivotmatrix == TRUE) { # put countries in rows and industries in columns
       visualize.data <- t(visualize.data)
-
-      selected_y <- couD
-      obs_y <- nocou
-  } else {
-      selected_y <- indX
-      obs_y <- noind
   }
-
-  palette <- .visualize.color(colorscheme = input.visualize_colorscheme,
-                              highlight_y  = input.visualize_highlight_y,
-                              selected_y = selected_y,
-                              obs_y = obs_y)
 
     op <- par(mar = c(3, 1, 2, 0)
               )
 
     mosaicplot(visualize.data,
                main = paste(title, input.visualize_year),
-               color = palette,
+               ## color = palette,
+               color = .visualize.palette(),
                las = 2,
                border = input.visualize_cellborder
                )
@@ -298,32 +396,94 @@ output$visualize.heatmap <- renderD3heatmap({
 })
 
 
-output$visualize.plot <- renderPlot({
-  ## .visualize.plot()
-    indX <- unique(unname(unlist(values$indagg[input$visualize_indX])))
-    couD <- unique(unname(unlist(values$couagg69[input$visualize_couD])))
+.visualize.scatterplot <- function(visualize.data) {
 
+
+    ## N <- 100
+    ## i <- sample(3, N, replace=TRUE)
+    ## x <- matrix(rnorm(N*3),ncol=3)
+    ## lab <- c("small", "bigger", "biggest")
+    ## d <- scatterplot3js(x, color=rainbow(N), labels=lab[i], size=i, renderer="canvas")
+    ## ## d <- scatterplot3js()
+
+    visualize.data <- t(visualize.data())
+
+    if (input$visualize_logval==TRUE) {
+        ## visualize.data <- read.csv.matrix(file.path("inst", "extdata", "icioapp2015_couSindS_2011.csv"))
+        visualize.data[visualize.data >= 1] <- log(visualize.data[visualize.data >= 1])
+    }
+
+
+    visualize.data.df <- data.frame(columns = c(col(visualize.data)), # industry
+                                    rows = c(row(visualize.data)), # country
+                                    value = c(visualize.data)
+                                    )
+
+    ## visualize.data.df <- data.frame(
+    ##     columns = c(colnames(visualize.data)), # industry
+    ##     rows = c(rownames(visualize.data)), # country
+    ##     value = c(visualize.data)
+    ## )
+
+    ## names(visualize.data.df) <- NULL
+    ## names(visualize.data.df) <- c("industry", "country", "value")
+    names(visualize.data.df) <- c("country", "", "industry")
+    ## labels=sprintf(
+    ##     "x=%.3s, y=%.6s, z=%.1f",
+    ##     visualize.data.df$columns,
+    ##     visualize.data.df$rows,
+    ##     visualize.data.df$value)
+
+    d <- scatterplot3js(
+        x = visualize.data.df,
+        ## x = as.numeric(visualize.data.df$columns),
+        ## y = as.numeric(visualize.data.df$rows),
+        ## x = visualize.data.df$columns,
+        ## y = visualize.data.df$rows,
+        ## z = visualize.data.df$value,
+               color=rep(.visualize.palette(),
+                   ## length(colnames(visualize.data))),
+                   length(colnames(visualize.data))),
+               ## labels = labels,
+               renderer="canvas"
+               ) # size, label
+
+
+    return(d)
+
+}
+
+
+output$visualize.scatterplot <- renderScatterplotThree({
+
+    .visualize.scatterplot(visualize.data = visualize.data())
+
+})
+
+output$visualize.plot <- renderPlot({
   .visualize.plot(input.visualize_method = input$visualize_method,
                   visualize.data = visualize.data(),
+                  title = .visualize.title(),
                   ## input.visualize_year = input$visualize_year
                   input.visualize_year = input$visualize_year[1],
                   input.visualize_cellborder = input$visualize_cellborder,
-                  indX = indX,
-                  couD = couD,
+                  indX = .visualize.indX(),
+                  couD = .visualize.couD(),
                   noind = values$noind,
                   nocou = values$nocou,
                   visualize.param = visualize.param(),
                   input.visualize_highlight_y = input$visualize_highlight_y,
                   input.visualize_colorscheme = input$visualize_colorscheme,
-                  input.visualize_pivotmatrix = input$visualize_pivotmatrix
+                  input.visualize_pivotmatrix = input$visualize_pivotmatrix,
+                  palette2 = .visualize.palette()
                   )
 })
 
 output$visualize.summary <- renderPrint({
 
-  couD <- unique(unname(unlist(values$couagg[input$visualize_couD])))
-  couX <- unique(unname(unlist(values$couagg69[input$visualize_couX])))
-  indX <- unique(unname(unlist(values$indagg[input$visualize_indX])))
+    couD <- .visualize.couD()
+    couX <- .visualize.couX()
+    indX <- .visualize.indX()
 
   blurb <- paste(
     ## paste('Year =', input$visualize_year),
@@ -383,40 +543,35 @@ output$visualize_download_chart <- downloadHandler(
         png(file = file, width = 1152, height = 648)
       }
 
-         data.coef <- values[[input$visualize_data.coef]][[1]]
-         data.demand <- values[[input$visualize_data.demand]][[1]]
-         couX <- unique(unname(unlist(values$couagg69[input$visualize_couX])))
-         indX <- unique(unname(unlist(values$indagg[input$visualize_indX])))
-         couD <- unique(unname(unlist(values$couagg[input$visualize_couD])))
-         visualize_method <- input$visualize_method
-
       ## ## turn off multiplot in favor of svg download
       ## for (yr in c(input$visualize_year[1]:input$visualize_year[2])) {
-      yr <- input$visualize_year[1]
+      yr <- as.numeric(input$visualize_year[1])
 
-         data.plot.yr <- .visualize.data(data.coef = data.coef,
-                                         data.demand = data.demand,
-                                         year = yr, # loop here
-                                         couX = couX,
-                                         indX = indX,
-                                         couD = couD,
-                                         visualize_method = visualize_method,
-                                         convRegCou = convRegCou,
-                                         NameInd34_agg = NameInd34_agg)
+         ## data.plot.yr <- .visualize.data(data.coef = values[[input$visualize_data.coef]][[1]],
+         ##                                 data.demand = values[[input$visualize_data.demand]][[1]],
+         ##                                 year = yr, # loop here
+         ##                                 couX = visualize.couX(),
+         ##                                 indX = visualize.indX(),
+         ##                                 couD = visualize.couD(),
+         ##                                 visualize_method = input$visualize_method,
+         ##                                 convRegCou = convRegCou,
+         ##                                 NameInd34_agg = NameInd34_agg)
 
          ## .visualize.plot(input.visualize_method = input$visualize_method,
          ##                 visualize.data = visualize.data(),
          ##                 input.visualize_year = yr)
-         .visualize.plot(input.visualize_method = visualize_method,
-                         visualize.data = data.plot.yr,
+         .visualize.plot(input.visualize_method = input$visualize_method,
+                         ## visualize.data = data.plot.yr,
+                         visualize.data = visualize.data(),
                          input.visualize_year = yr,
                          input.visualize_cellborder = input$visualize_cellborder,
-                         indX = indX,
-                         couD = couD,
+                         indX = .visualize.indX(),
+                         couD = .visualize.couD(),
                          noind = values$noind,
                          nocou = values$nocou,
                          visualize.param = visualize.param(),
                          input.visualize_colorscheme = input$visualize_colorscheme,
+                         input.visualize_highlight_y= input$visualize_highlight_y,
                          input.visualize_pivotmatrix = input$visualize_pivotmatrix
                          )
 
