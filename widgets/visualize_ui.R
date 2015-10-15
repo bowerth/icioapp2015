@@ -93,7 +93,7 @@ visualize.input <- column(width = 3,
                                         selected = "continuous",
                                         multiple = FALSE)
                             ,
-                            checkboxInput("visualize_highlight_y", "Highlight Selection",
+                            checkboxInput("visualize_highlight_y", "Highlight Selection (Industry)",
                                           value = FALSE)
                             ,
                               #library(shiny)
