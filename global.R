@@ -71,22 +71,22 @@ setInitValues <- function() {
         values$datasetlist <- c(isolate(values$datasetlist), "DATA.ICIOeconGRTR")
         ## isolate(dim(values[["DATA.ICIOeconGRTR"]][[1]]))
 
-        ## backward linkages
-        ## https://www.dropbox.com/s/3z8prao7xz7o3pf/DATA.ICIOeconB.Rdata?dl=0
-        env <- new.env()
-        load(file.path("data", "DATA.ICIOeconB.Rdata"), envir = env)
-        df <- mget(ls(envir = env), envir = env)
-        values[["DATA.ICIOeconB"]] <- df
-        values[["DATA.ICIOeconB_descr"]] <- attr(df, "description")
-        values$datasetlist <- c(isolate(values$datasetlist), "DATA.ICIOeconB")
+        ## ## backward linkages
+        ## ## https://www.dropbox.com/s/3z8prao7xz7o3pf/DATA.ICIOeconB.Rdata?dl=0
+        ## env <- new.env()
+        ## load(file.path("data", "DATA.ICIOeconB.Rdata"), envir = env)
+        ## df <- mget(ls(envir = env), envir = env)
+        ## values[["DATA.ICIOeconB"]] <- df
+        ## values[["DATA.ICIOeconB_descr"]] <- attr(df, "description")
+        ## values$datasetlist <- c(isolate(values$datasetlist), "DATA.ICIOeconB")
 
-        ## https://www.dropbox.com/s/nqw2lm2eegdvgx0/DATA.ICIOeconFDTTLdisc.Rdata?dl=0
-        env <- new.env()
-        load(file.path("data", "DATA.ICIOeconFDTTLdisc.Rdata"), envir = env)
-        df <- mget(ls(envir = env), envir = env)
-        values[["DATA.ICIOeconFDTTLdisc"]] <- df
-        values[["DATA.ICIOeconFDTTLdisc_descr"]] <- attr(df, "description")
-        values$datasetlist <- c(isolate(values$datasetlist), "DATA.ICIOeconFDTTLdisc")
+        ## ## https://www.dropbox.com/s/nqw2lm2eegdvgx0/DATA.ICIOeconFDTTLdisc.Rdata?dl=0
+        ## env <- new.env()
+        ## load(file.path("data", "DATA.ICIOeconFDTTLdisc.Rdata"), envir = env)
+        ## df <- mget(ls(envir = env), envir = env)
+        ## values[["DATA.ICIOeconFDTTLdisc"]] <- df
+        ## values[["DATA.ICIOeconFDTTLdisc_descr"]] <- attr(df, "description")
+        ## values$datasetlist <- c(isolate(values$datasetlist), "DATA.ICIOeconFDTTLdisc")
 
         ## str(isolate(values[["DATA.ICIOeconFDTTLexINVNT"]][[1]]))
         ## str(isolate(values[["DATA.ICIOeconGRTR"]][[1]]))
@@ -158,7 +158,7 @@ twitterblue <- rgb(red = 66, green = 139, blue = 202, maxColorValue = 255)
 ## green from OECD globe logo: #8dc63f
 ## col2rgb("#8dc63f")
 ## highlightcol <- rgb(red = 0, green = 255, blue = 0, maxColorValue = 255)
-highlightcol <- rgb(red = 141, green = 198, blue = 63, maxColorValue = 255)
+## highlightcol <- rgb(red = 141, green = 198, blue = 63, maxColorValue = 255)
 ## source(file.path("R", "convCreate.R"))
 
 ## ## create conversion [2108 * 2346]

@@ -4,24 +4,24 @@ visualize.input <- column(width = 3,
                             width = NULL,
                             ## title = "Controls",
 
-                              sliderInput("visualize_year", "Year",
-                                        min = 1995, max = 2011,
-                                        ## value = 1995,
-                                        ## value = c(1995, 2011),
-                                        value = c(2005),
-                                        step = 1, sep="", # format="#" is old shiny
-                                        animate = TRUE
-                                        )
-                            ,
+                            ##   sliderInput("visualize_year", "Year",
+                            ##             min = 1995, max = 2011,
+                            ##             ## value = 1995,
+                            ##             ## value = c(1995, 2011),
+                            ##             value = c(2005),
+                            ##             step = 1, sep="", # format="#" is old shiny
+                            ##             animate = TRUE
+                            ##             )
+                            ## ,
 
-                             ##  selectInput("visualize_year", "Year",
-                             ##              choices = c(1995, 2000, 2005, 2008, 2009, 2010, 2011),
-                             ##              ## selected = 2005,
-                             ##              selected = 2011,
-                             ##              multiple = FALSE,
-                             ##              selectize = TRUE
-                             ##              )
-                             ## ,
+                              selectInput("visualize_year", "Year",
+                                          choices = c(1995, 2000, 2005, 2008, 2009, 2010, 2011),
+                                          ## selected = 2005,
+                                          selected = 2011,
+                                          multiple = FALSE,
+                                          selectize = TRUE
+                                          )
+                             ,
 
                               selectInput("visualize_data.coef", "Coefficient Data",
                                         choices = c("CVB" = "DATA.ICIOeconCVB"),
@@ -30,27 +30,30 @@ visualize.input <- column(width = 3,
                             selectInput("visualize_data.demand", "Demand Data",
                                         choices = c(
                                           "GRTR" = "DATA.ICIOeconGRTR",
-                                          "FDTTLexINVNT" = "DATA.ICIOeconFDTTLexINVNT",
-                                          "FDTTLdisc" = "DATA.ICIOeconFDTTLdisc"),
+                                          "FDTTLexINVNT" = "DATA.ICIOeconFDTTLexINVNT"
+                                          ##  ,
+                                          ## "FDTTLdisc" = "DATA.ICIOeconFDTTLdisc"
+                                        ),
                                         selected = c("DATA.ICIOeconGRTR"),
                                         multiple = FALSE)
                             ,
                             selectInput("visualize_method", "Calculation Method",
                                         choices = c(
                                             "couSindS",
-                                            "couXindS",
-                                            "backlink"
+                                            "couXindS"
+                                           ## ,
+                                           ##  "backlink"
                                         ),
-                                        ## selected = c("couSindS"),
-                                        selected = c("backlink"),
+                                        selected = c("couSindS"),
+                                        ## selected = c("backlink"),
                                         multiple = FALSE)
                             ,
 
                             selectInput("visualize_indX", "Export or Demand Industry",
                                         choices = isolate(names(values$indagg)),
                                         ## selected = "C15T37",
-                                        ## selected = "CTOTAL",
-                                        selected = "C65T74",
+                                        selected = "CTOTAL",
+                                        ## selected = "C65T74",
                                         multiple = TRUE)
                             ,
 
@@ -91,8 +94,14 @@ visualize.input <- column(width = 3,
                                         multiple = FALSE)
                             ,
                             checkboxInput("visualize_highlight_y", "Highlight Selection",
-                                          value = TRUE)
+                                          value = FALSE)
                             ,
+                              #library(shiny)
+                              conditionalPanel(
+                                  condition = "input.visualize_highlight_y == true",
+                                  colourInput("visualize_highlight_col", "Select colour", value = "green")
+                              )
+                             ,
                             checkboxInput("visualize_logval", "Log Values (>= 1)",
                                           value = FALSE)
                             ,
@@ -106,17 +115,19 @@ visualize.output <- column(width = 9,
                            box(width = NULL, title = "Parameters", collapsible = TRUE, collapsed = TRUE,
                                verbatimTextOutput("visualize.summary"))
                            ,
-                           box(width = NULL, collapsible = TRUE, collapsed = TRUE,
+                           box(width = NULL, collapsible = TRUE, collapsed = FALSE,
                              plotOutput("visualize.plot", height = 650)
                                )
-                           ,
-                           box(width = NULL, collapsible = TRUE, collapsed = FALSE,
-                               d3heatmapOutput("visualize.heatmap", height = "650px")
-                               )
-                           ,
-                           box(width = NULL, collapsible = TRUE, collapsed = FALSE,
-                               scatterplotThreeOutput("visualize.scatterplot", height = "650px")
-                               )
+
+                          ## ,
+                          ##  box(width = NULL, collapsible = TRUE, collapsed = FALSE,
+                          ##      d3heatmapOutput("visualize.heatmap", height = "650px")
+                          ##      )
+                          ##  ,
+                          ##  box(width = NULL, collapsible = TRUE, collapsed = FALSE,
+                          ##      scatterplotThreeOutput("visualize.scatterplot", height = "650px")
+                          ##      )
+
                            )
 
 
