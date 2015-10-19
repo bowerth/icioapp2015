@@ -41,8 +41,8 @@ visualize.input <- column(width = 3,
                                             "couXindS",
                                             "backlink"
                                         ),
-                                        ## selected = c("couSindS"),
-                                        selected = c("backlink"),
+                                        selected = c("couSindS"),
+                                        ## selected = c("backlink"),
                                         multiple = FALSE)
                             ,
 
@@ -106,15 +106,15 @@ visualize.output <- column(width = 9,
                            box(width = NULL, title = "Parameters", collapsible = TRUE, collapsed = TRUE,
                                verbatimTextOutput("visualize.summary"))
                            ,
-                           box(width = NULL, collapsible = TRUE, collapsed = TRUE,
+                           box(width = NULL, collapsible = TRUE, collapsed = FALSE,
                              plotOutput("visualize.plot", height = 650)
                                )
                            ,
-                           box(width = NULL, collapsible = TRUE, collapsed = FALSE,
+                           box(width = NULL, collapsible = TRUE, collapsed = TRUE,
                                d3heatmapOutput("visualize.heatmap", height = "650px")
                                )
                            ,
-                           box(width = NULL, collapsible = TRUE, collapsed = FALSE,
+                           box(width = NULL, collapsible = TRUE, collapsed = TRUE,
                                scatterplotThreeOutput("visualize.scatterplot", height = "650px")
                                )
                            )
