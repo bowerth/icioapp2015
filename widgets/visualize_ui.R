@@ -112,21 +112,28 @@ visualize.input <- column(width = 3,
                           )
 
 visualize.output <- column(width = 9,
+
                            box(width = NULL, title = "Parameters", collapsible = TRUE, collapsed = TRUE,
                                verbatimTextOutput("visualize.summary"))
                            ,
                            box(width = NULL, collapsible = TRUE, collapsed = FALSE,
                              plotOutput("visualize.plot", height = 650)
+                               )
 
-                               )
-                           ,
-                           box(width = NULL, collapsible = TRUE, collapsed = TRUE,
-                               d3heatmapOutput("visualize.heatmap", height = "650px")
-                               )
-                           ,
-                           box(width = NULL, collapsible = TRUE, collapsed = TRUE,
-                               scatterplotThreeOutput("visualize.scatterplot", height = "650px")
-                               )
+                          ## ,
+                          ##  box(width = NULL, collapsible = TRUE, collapsed = TRUE,
+                          ##      d3heatmapOutput("visualize.heatmap", height = "650px")
+                          ##      )
+                          ##  ,
+                          ##  box(width = NULL, collapsible = TRUE, collapsed = TRUE,
+                          ##      scatterplotThreeOutput("visualize.scatterplot", height = "650px")
+                          ##      )
+
+                          ## ,
+                           ## box(width = NULL, # collapsible = TRUE, collapsed = FALSE,
+                           ##     dimpleOutput("visualize.dimple") #, height = "350px")
+                           ##     ## scatterplotThreeOutput("visualize.scatterplot", height = "650px")
+                           ##     )
 
                            )
 

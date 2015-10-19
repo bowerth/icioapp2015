@@ -4,8 +4,10 @@ library(shiny)
 ## devtools::install_github("rstudio/shinydashboard")
 library(shinydashboard)
 ## devtools::install_github("rstudio/d3heatmap")
+
 ## library(d3heatmap)
 ## library(threejs)
+library(rcdimple)
 
 
 ## devtools::install_github("daattali/shinyjs")
