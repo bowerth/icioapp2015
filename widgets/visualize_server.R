@@ -314,6 +314,10 @@ visualize.param <- reactive({
 
 })
 
+## alternatives for marimekko plot:
+## http://timelyportfolio.github.io/docs/_build/html/dimple/gallery.html#example14-marimekko-horiz-r
+## http://dimplejs.org/advanced_examples_viewer.html?id=advanced_grouped_mekko
+
 .visualize.plot <- function(input.visualize_method,
                             title,
                             visualize.data,
