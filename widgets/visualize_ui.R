@@ -126,6 +126,7 @@ visualize.output <- column(width = 9,
                            ,
                            box(width = NULL, collapsible = TRUE, collapsed = TRUE,
                                scatterplotThreeOutput("visualize.scatterplot", height = "650px")
+                               )
 
                            )
 
