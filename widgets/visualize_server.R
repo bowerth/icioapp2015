@@ -209,6 +209,7 @@ visualize.param <- reactive({
 .visualize.color <- function(colorscheme,
                              ## indX,
                              highlight_y,
+                             highlight_col,
                              selected_y,
                              obs_y) {
 
@@ -220,7 +221,8 @@ visualize.param <- reactive({
         ## remove color for all selected
         if (highlight_y == TRUE) {
             ## palette[selected_y] <- "grey50"
-            palette[selected_y] <- highlightcol
+            ## palette[selected_y] <- highlightcol
+            palette[selected_y] <- highlight_col
         }
 
     } else if (colorscheme == "discrete") {
@@ -271,7 +273,8 @@ visualize.param <- reactive({
         }
         if (highlight_y == TRUE) {
             ## palette[selected_y] <- "grey50"
-            palette[selected_y] <- highlightcol
+            ## palette[selected_y] <- highlightcol
+            palette[selected_y] <- highlight_col
         }
     }
 
@@ -292,6 +295,7 @@ visualize.param <- reactive({
 
   palette <- .visualize.color(colorscheme = input$visualize_colorscheme,
                               highlight_y  = input$visualize_highlight_y,
+                              highlight_col = input$visualize_highlight_col,
                               selected_y = selected_y,
                               obs_y = obs_y)
 
@@ -306,8 +310,8 @@ visualize.param <- reactive({
       title <- "Value-added created by imports"
   } else if (input$visualize_method=="couSindS") {
       title <- "VA by Source Country and Source Industry"
-  } else if (input$visualize_method=="backlink") {
-      title <- "Backward Linkage weighted by total Final Demand"
+  ## } else if (input$visualize_method=="backlink") {
+  ##     title <- "Backward Linkage weighted by total Final Demand"
   }
 
     return(title)
@@ -383,86 +387,64 @@ visualize.param <- reactive({
 }
 
 
-.visualize.heatmap <- function(visualize.data) {
-
-  d <- d3heatmap(t(visualize.data),
-                 colors = colorRampPalette(c("grey90", twitterblue, "grey20"))(20)
-                 )
-    return(d)
-
-}
-
-
-output$visualize.heatmap <- renderD3heatmap({
-
-  .visualize.heatmap(visualize.data = visualize.data())
-
-})
+## .visualize.heatmap <- function(visualize.data) {
+##   d <- d3heatmap(t(visualize.data),
+##                  colors = colorRampPalette(c("grey90", twitterblue, "grey20"))(20)
+##                  )
+##     return(d)
+## }
+## output$visualize.heatmap <- renderD3heatmap({
+##   .visualize.heatmap(visualize.data = visualize.data())
+## })
 
 
-.visualize.scatterplot <- function(visualize.data) {
-
-
-    ## N <- 100
-    ## i <- sample(3, N, replace=TRUE)
-    ## x <- matrix(rnorm(N*3),ncol=3)
-    ## lab <- c("small", "bigger", "biggest")
-    ## d <- scatterplot3js(x, color=rainbow(N), labels=lab[i], size=i, renderer="canvas")
-    ## ## d <- scatterplot3js()
-
-    visualize.data <- t(visualize.data())
-
-    if (input$visualize_logval==TRUE) {
-        ## visualize.data <- read.csv.matrix(file.path("inst", "extdata", "icioapp2015_couSindS_2011.csv"))
-        visualize.data[visualize.data >= 1] <- log(visualize.data[visualize.data >= 1])
-    }
-
-
-    visualize.data.df <- data.frame(columns = c(col(visualize.data)), # industry
-                                    rows = c(row(visualize.data)), # country
-                                    value = c(visualize.data)
-                                    )
-
-    ## visualize.data.df <- data.frame(
-    ##     columns = c(colnames(visualize.data)), # industry
-    ##     rows = c(rownames(visualize.data)), # country
-    ##     value = c(visualize.data)
-    ## )
-
-    ## names(visualize.data.df) <- NULL
-    ## names(visualize.data.df) <- c("industry", "country", "value")
-    names(visualize.data.df) <- c("country", "", "industry")
-    ## labels=sprintf(
-    ##     "x=%.3s, y=%.6s, z=%.1f",
-    ##     visualize.data.df$columns,
-    ##     visualize.data.df$rows,
-    ##     visualize.data.df$value)
-
-    d <- scatterplot3js(
-        x = visualize.data.df,
-        ## x = as.numeric(visualize.data.df$columns),
-        ## y = as.numeric(visualize.data.df$rows),
-        ## x = visualize.data.df$columns,
-        ## y = visualize.data.df$rows,
-        ## z = visualize.data.df$value,
-               color=rep(.visualize.palette(),
-                   ## length(colnames(visualize.data))),
-                   length(colnames(visualize.data))),
-               ## labels = labels,
-               renderer="canvas"
-               ) # size, label
-
-
-    return(d)
-
-}
-
-
-output$visualize.scatterplot <- renderScatterplotThree({
-
-    .visualize.scatterplot(visualize.data = visualize.data())
-
-})
+## .visualize.scatterplot <- function(visualize.data) {
+##     ## N <- 100
+##     ## i <- sample(3, N, replace=TRUE)
+##     ## x <- matrix(rnorm(N*3),ncol=3)
+##     ## lab <- c("small", "bigger", "biggest")
+##     ## d <- scatterplot3js(x, color=rainbow(N), labels=lab[i], size=i, renderer="canvas")
+##     ## ## d <- scatterplot3js()
+##     visualize.data <- t(visualize.data())
+##     if (input$visualize_logval==TRUE) {
+##         ## visualize.data <- read.csv.matrix(file.path("inst", "extdata", "icioapp2015_couSindS_2011.csv"))
+##         visualize.data[visualize.data >= 1] <- log(visualize.data[visualize.data >= 1])
+##     }
+##     visualize.data.df <- data.frame(columns = c(col(visualize.data)), # industry
+##                                     rows = c(row(visualize.data)), # country
+##                                     value = c(visualize.data)
+##                                     )
+##     ## visualize.data.df <- data.frame(
+##     ##     columns = c(colnames(visualize.data)), # industry
+##     ##     rows = c(rownames(visualize.data)), # country
+##     ##     value = c(visualize.data)
+##     ## )
+##     ## names(visualize.data.df) <- NULL
+##     ## names(visualize.data.df) <- c("industry", "country", "value")
+##     names(visualize.data.df) <- c("country", "", "industry")
+##     ## labels=sprintf(
+##     ##     "x=%.3s, y=%.6s, z=%.1f",
+##     ##     visualize.data.df$columns,
+##     ##     visualize.data.df$rows,
+##     ##     visualize.data.df$value)
+##     d <- scatterplot3js(
+##         x = visualize.data.df,
+##         ## x = as.numeric(visualize.data.df$columns),
+##         ## y = as.numeric(visualize.data.df$rows),
+##         ## x = visualize.data.df$columns,
+##         ## y = visualize.data.df$rows,
+##         ## z = visualize.data.df$value,
+##                color=rep(.visualize.palette(),
+##                    ## length(colnames(visualize.data))),
+##                    length(colnames(visualize.data))),
+##                ## labels = labels,
+##                renderer="canvas"
+##                ) # size, label
+##     return(d)
+## }
+## output$visualize.scatterplot <- renderScatterplotThree({
+##     .visualize.scatterplot(visualize.data = visualize.data())
+## })
 
 output$visualize.plot <- renderPlot({
   .visualize.plot(input.visualize_method = input$visualize_method,
@@ -566,6 +548,7 @@ output$visualize_download_chart <- downloadHandler(
          ##                 input.visualize_year = yr)
          .visualize.plot(input.visualize_method = input$visualize_method,
                          ## visualize.data = data.plot.yr,
+                         title = .visualize.title(),
                          visualize.data = visualize.data(),
                          input.visualize_year = yr,
                          input.visualize_cellborder = input$visualize_cellborder,
