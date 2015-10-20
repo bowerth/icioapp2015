@@ -341,7 +341,7 @@ visualize.param <- reactive({
 ## http://timelyportfolio.github.io/docs/_build/html/dimple/gallery.html#example14-marimekko-horiz-r
 ## http://dimplejs.org/advanced_examples_viewer.html?id=advanced_grouped_mekko
 
-output$visualize.summary <- renderPrint({
+output$visualize_summary <- renderPrint({
 
     couD <- .visualize.couD()
     couX <- .visualize.couX()
