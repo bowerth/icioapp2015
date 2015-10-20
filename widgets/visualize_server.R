@@ -2,6 +2,7 @@
 ## load('c:/temp/Dropbox/ICIO2015/Rdata/DATA.ICIOeconFDTTLdisc.Rdata')
 ## load('c:/temp/Dropbox/ICIO2015/Rdata/DATA.ICIOeconCVB.Rdata')
 
+
 visualize_couSindS <- function(data.coef=values[["DATA.ICIOeconCVB"]][[1]],
                                data.demand=values[["DATA.ICIOeconGRTR"]][[1]],
                                nocou=values[["nocou"]],
@@ -44,6 +45,7 @@ visualize_couSindS <- function(data.coef=values[["DATA.ICIOeconCVB"]][[1]],
 ## indX <- 18
 ## year <- 2011
 
+
 ## domestic VA in exports
 visualize_couXindS <- function(data.coef=values[["DATA.ICIOeconCVB"]][[1]],
                      data.demand=values[["DATA.ICIOeconGRTR"]][[1]],
@@ -73,30 +75,31 @@ visualize_couXindS <- function(data.coef=values[["DATA.ICIOeconCVB"]][[1]],
     return(result.m)
 }
 
-## data.coef=isolate(values[["DATA.ICIOeconB"]][[1]])
-## data.demand=isolate(values[["DATA.ICIOeconFDTTLdisc"]][[1]])
-## year <- 2011
-## str(data.demand)
-## str(values)
-visualize_backlink <- function(
-    data.coef=values[["DATA.ICIOeconB"]][[1]],
-    data.demand=values[["DATA.ICIOeconFDTTLdisc"]][[1]],
-    year) {
 
-    ## F = apply(DATA.ICIOeconFDTTLdisc[2011-1994,,],1,sum)
-    F = apply(data.demand[year-1994, , ], 1, sum)
-    ## B = DATA.ICIOeconB[2011-1994,,]
-    B = data.coef[year-1994, , ]
-    cF =  concixei %*% F
-    ## str(concixei)
-    cBF = apply (concixei %*% B %*% diag(F), 2,sum) %*% t(concixei)
-    res <- round(c(cBF) / c(cF),5)
-    ## result.m <- matrix(res, nrow = 34, byrow = FALSE)
-    result.m <- matrix(res, ncol = 34, byrow = TRUE)
-    result.m[is.nan(result.m)] <- 1
-    ## matrix(res, ncol = 34, byrow = TRUE)
-    return(result.m)
-}
+## ## data.coef=isolate(values[["DATA.ICIOeconB"]][[1]])
+## ## data.demand=isolate(values[["DATA.ICIOeconFDTTLdisc"]][[1]])
+## ## year <- 2011
+## ## str(data.demand)
+## ## str(values)
+## visualize_backlink <- function(
+##     data.coef=values[["DATA.ICIOeconB"]][[1]],
+##     data.demand=values[["DATA.ICIOeconFDTTLdisc"]][[1]],
+##     year) {
+
+##     ## F = apply(DATA.ICIOeconFDTTLdisc[2011-1994,,],1,sum)
+##     F = apply(data.demand[year-1994, , ], 1, sum)
+##     ## B = DATA.ICIOeconB[2011-1994,,]
+##     B = data.coef[year-1994, , ]
+##     cF =  concixei %*% F
+##     ## str(concixei)
+##     cBF = apply (concixei %*% B %*% diag(F), 2,sum) %*% t(concixei)
+##     res <- round(c(cBF) / c(cF),5)
+##     ## result.m <- matrix(res, nrow = 34, byrow = FALSE)
+##     result.m <- matrix(res, ncol = 34, byrow = TRUE)
+##     result.m[is.nan(result.m)] <- 1
+##     ## matrix(res, ncol = 34, byrow = TRUE)
+##     return(result.m)
+## }
 
 
 .visualize.data <- function(data.coef,
@@ -133,15 +136,18 @@ visualize_backlink <- function(
   return(result)
 }
 
+
 .visualize.couX <- reactive({
   couX <- unique(unname(unlist(values$couagg69[input$visualize_couX])))
   return(couX)
 })
 
+
 .visualize.indX <- reactive({
     indX <- unique(unname(unlist(values$indagg[input$visualize_indX])))
     return(indX)
 })
+
 
 .visualize.couD <- reactive({
   couD <- unique(unname(unlist(values$couagg[input$visualize_couD])))
@@ -189,6 +195,7 @@ visualize.data <- reactive({
 ## ## dim(result.test)
 ## mosaicplot(result.test)
 
+
 visualize.param <- reactive({
 
   param <- list(
@@ -206,6 +213,7 @@ visualize.param <- reactive({
   return(param)
 
 })
+
 
 .visualize.color <- function(colorscheme,
                              ## indX,
@@ -292,6 +300,7 @@ visualize.param <- reactive({
 
 }
 
+
 .visualize.palette <- reactive({
 
     if (input$visualize_pivotmatrix == TRUE) { # put countries in rows and industries in columns
@@ -361,6 +370,7 @@ output$visualize.summary <- renderPrint({
   return(cat(blurb))
 
 })
+
 
 .visualize.plot <- function(input.visualize_method,
                             title,
@@ -436,16 +446,6 @@ output$visualize_plot <- renderPlot({
 })
 
 
-.visualize.heatmap <- function(visualize.data) {
-  d <- d3heatmap(t(visualize.data),
-                 colors = colorRampPalette(c("grey90", twitterblue, "grey20"))(20)
-                 )
-    return(d)
-}
-output$visualize_heatmap <- renderD3heatmap({
-  .visualize.heatmap(visualize.data = visualize.data())
-})
-
 .visualize.createdf <- function(visualize.data,
                                 input.visualize_logval=FALSE,
                                 numeric=FALSE) {
@@ -454,7 +454,7 @@ output$visualize_heatmap <- renderD3heatmap({
   ## rownames(visualize.data) <- visualize.data[, 1]
   ## ## class(visualize.data)
   ## visualize.data <- visualize.data[, -1]
-  
+
     visualize.data <- t(visualize.data)
     if (input.visualize_logval==TRUE) {
         visualize.data[visualize.data >= 1] <- log(visualize.data[visualize.data >= 1])
@@ -476,73 +476,94 @@ output$visualize_heatmap <- renderD3heatmap({
 
 }
 
-.visualize.scatterplot <- function(visualize.data) {
 
-    visualize.data.df <- .visualize.createdf(visualize.data = visualize.data,
-                                             input.visualize_logval = input$visualize_logval,
-                                             numeric = TRUE)
-    names(visualize.data.df) <- c("country", "", "industry")
-
-    ## labels=sprintf(
-    ##     "x=%.3s, y=%.6s, z=%.1f",
-    ##     visualize.data.df$columns,
-    ##     visualize.data.df$rows,
-    ##     visualize.data.df$value)
-    d <- scatterplot3js(
-        x = visualize.data.df,
-        ## x = as.numeric(visualize.data.df$columns),
-        ## y = as.numeric(visualize.data.df$rows),
-        ## x = visualize.data.df$columns,
-        ## y = visualize.data.df$rows,
-        ## z = visualize.data.df$value,
-               color=rep(.visualize.palette(),
-                   ## length(colnames(visualize.data))),
-                   ## length(colnames(visualize.data)
-                   length(unique(visualize.data.df$industry)
-                          )),
-               ## labels = labels,
-               renderer="canvas"
-               ) # size, label
-    return(d)
-}
-output$visualize_scatterplot <- renderScatterplotThree({
-    .visualize.scatterplot(visualize.data = visualize.data())
-})
+## .visualize.heatmap <- function(visualize.data) {
+##   d <- d3heatmap(t(visualize.data),
+##                  colors = colorRampPalette(c("grey90", twitterblue, "grey20"))(20)
+##                  )
+##     return(d)
+## }
+## output$visualize_heatmap <- renderD3heatmap({
+##   .visualize.heatmap(visualize.data = visualize.data())
+## })
 
 
+## .visualize.scatterplot <- function(visualize.data) {
 
-.visualize.dimple <- function(visualize.data) {
-    visualize.data.df <- .visualize.createdf(visualize.data = visualize.data,
-                                             input.visualize_logval = input$visualize_logval,
-                                             numeric = FALSE)
-    ## print(head(visualize.data.df))
-    ## write.csv(visualize.data.df, file = file.path(dlpath, "visualize_data_df.csv"), row.names = FALSE)
-    d <-
-        visualize.data.df %>%
-            dimple(value ~ country,
-                   groups = "industry",
-                   type = "bar"
-                   ## ,
-                   ## height = "350px",
-                   ## width = "500px"
-                   ) %>%
-                     ## default_colors(
-                     ## colorRampPalette(c(
-                     ##   "grey20",
-                     ##   ## "#780585",
-                     ##   ## "#00F2FF",
-                     ##   ## twitterblue
-                     ##   input$visualize_highlight_col
-                     ##   ))(length(unique(visualize.data.df$industry)))) %>%
-                     default_colors(.visualize.palette()) %>%
-                       xAxis(type = "addAxis", measure = "value", showPercent = TRUE) %>%
-                         yAxis(type = "addPctAxis")
-    ## str(d)
-    return(d)
-  }
-output$visualize_dimple <- renderDimple({
-  return(.visualize.dimple(visualize.data = visualize.data()))
-})
+##     visualize.data.df <- .visualize.createdf(visualize.data = visualize.data,
+##                                              input.visualize_logval = input$visualize_logval,
+##                                              numeric = TRUE)
+##     names(visualize.data.df) <- c("country", "", "industry")
+
+##     ## labels=sprintf(
+##     ##     "x=%.3s, y=%.6s, z=%.1f",
+##     ##     visualize.data.df$columns,
+##     ##     visualize.data.df$rows,
+##     ##     visualize.data.df$value)
+##     d <- scatterplot3js(
+##         x = visualize.data.df,
+##         ## x = as.numeric(visualize.data.df$columns),
+##         ## y = as.numeric(visualize.data.df$rows),
+##         ## x = visualize.data.df$columns,
+##         ## y = visualize.data.df$rows,
+##         ## z = visualize.data.df$value,
+##                color=rep(.visualize.palette(),
+##                    ## length(colnames(visualize.data))),
+##                    ## length(colnames(visualize.data)
+##                    length(unique(visualize.data.df$industry)
+##                           )),
+##                ## labels = labels,
+##                renderer="canvas"
+##                ) # size, label
+##     return(d)
+## }
+## output$visualize_scatterplot <- renderScatterplotThree({
+##     .visualize.scatterplot(visualize.data = visualize.data())
+## })
+
+
+## .visualize.dimple <- function(visualize.data) {
+##     visualize.data.df <- .visualize.createdf(visualize.data = visualize.data,
+##                                              input.visualize_logval = input$visualize_logval,
+##                                              numeric = FALSE)
+##     ## print(head(visualize.data.df))
+##     ## write.csv(visualize.data.df, file = file.path(dlpath, "visualize_data_df.csv"), row.names = FALSE)
+##     d <-
+##         visualize.data.df %>%
+##             dimple(value ~ country,
+##                    groups = "industry",
+##                    type = "bar"
+##                    ## ,
+##                    ## height = "350px",
+##                    ## width = "500px"
+##                    ) %>%
+##                      ## default_colors(
+##                      ## colorRampPalette(c(
+##                      ##   "grey20",
+##                      ##   ## "#780585",
+##                      ##   ## "#00F2FF",
+##                      ##   ## twitterblue
+##                      ##   input$visualize_highlight_col
+##                      ##   ))(length(unique(visualize.data.df$industry)))) %>%
+##                      default_colors(.visualize.palette()) %>%
+##                        xAxis(type = "addAxis", measure = "value", showPercent = TRUE) %>%
+##                          yAxis(type = "addPctAxis")
+##     ## str(d)
+##     return(d)
+##   }
+## output$visualize_dimple <- renderDimple({
+##   return(.visualize.dimple(visualize.data = visualize.data()))
+## })
+## output$visualize_download_dimple <- downloadHandler(
+##     filename = function() {
+##         paste0('icioapp2015_', # namereg[as.numeric(input$couVA)],
+##                input$visualize_method,
+##                '.html')
+##     },
+##     content = function(file) {
+##         htmlwidgets:::saveWidget(widget = .visualize.dimple(visualize.data = visualize.data()), file = file, selfcontained = TRUE, libdir = NULL)
+##     }
+## )
 
 
 output$visualize_download_data <- downloadHandler(
@@ -559,6 +580,7 @@ output$visualize_download_data <- downloadHandler(
         write.csv(t(round(visualize.data(), 2)), file)
     }
 )
+
 
 output$visualize_download_chart <- downloadHandler(
     filename = function() {
@@ -615,16 +637,5 @@ output$visualize_download_chart <- downloadHandler(
   ## } # multiplot end
 
        dev.off()
-    }
-)
-
-output$visualize_download_dimple <- downloadHandler(
-    filename = function() {
-        paste0('icioapp2015_', # namereg[as.numeric(input$couVA)],
-               input$visualize_method,
-               '.html')
-    },
-    content = function(file) {
-        htmlwidgets:::saveWidget(widget = .visualize.dimple(visualize.data = visualize.data()), file = file, selfcontained = TRUE, libdir = NULL)
     }
 )

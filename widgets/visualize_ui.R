@@ -25,7 +25,7 @@ visualize.input <- column(width = 3,
 
                               selectInput("visualize_data.coef", "Subject", # "Coefficient Data",
                                         choices = c(
-                                          "TiVA" = "DATA.ICIOeconCVB" # CVB 
+                                          "TiVA" = "DATA.ICIOeconCVB" # CVB
                                           ## DATA.ICIOeconB
                                           ),
                                         selected = "DATA.ICIOeconCVB", multiple = FALSE)
@@ -106,9 +106,9 @@ visualize.input <- column(width = 3,
                                   colourInput("visualize_highlight_col", "Select colour", value = "green")
                               )
                              ,
-                            checkboxInput("visualize_logval", "Log Values (>= 1)",
-                                          value = FALSE)
-                            ,
+                            ## checkboxInput("visualize_logval", "Log Values (>= 1)",
+                            ##               value = FALSE)
+                            ## ,
                             checkboxInput("visualize_cellborder", "Cell Borders", value = TRUE)
                             ,
                             checkboxInput("visualize_pivotmatrix", "Swap x- and y-axes", value = FALSE)
@@ -124,20 +124,20 @@ visualize.output <- column(width = 9,
                                plotOutput("visualize_plot", height = 650)
                                )
 
-                          ,
-                           box(width = NULL, collapsible = TRUE, collapsed = FALSE,
-                               dimpleOutput("visualize_dimple", height = "650px"),
-                               downloadButton("visualize_download_dimple", "Download HTML")
-                               )
+                          ## ,
+                          ##  box(width = NULL, collapsible = TRUE, collapsed = FALSE,
+                          ##      dimpleOutput("visualize_dimple", height = "650px"),
+                          ##      downloadButton("visualize_download_dimple", "Download HTML")
+                          ##      )
 
-                           ,
-                           box(width = NULL, collapsible = TRUE, collapsed = TRUE,
-                               d3heatmapOutput("visualize_heatmap", height = "650px")
-                               )
-                           ,
-                           box(width = NULL, collapsible = TRUE, collapsed = TRUE,
-                               scatterplotThreeOutput("visualize_scatterplot", height = "650px")
-                               )
+                           ## ,
+                           ## box(width = NULL, collapsible = TRUE, collapsed = TRUE,
+                           ##     d3heatmapOutput("visualize_heatmap", height = "650px")
+                           ##     )
+                           ## ,
+                           ## box(width = NULL, collapsible = TRUE, collapsed = TRUE,
+                           ##     scatterplotThreeOutput("visualize_scatterplot", height = "650px")
+                           ##     )
 
                            )
 
