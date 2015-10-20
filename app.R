@@ -5,10 +5,12 @@ library(shiny)
 library(shinydashboard)
 ## devtools::install_github("rstudio/d3heatmap")
 
-## library(d3heatmap)
-## library(threejs)
+library(d3heatmap)
+library(threejs)
 library(rcdimple)
 
+library(dplyr)
+library(tidyr)
 
 ## devtools::install_github("daattali/shinyjs")
 library(shinyjs)

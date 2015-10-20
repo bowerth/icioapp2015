@@ -220,11 +220,11 @@ visualize.param <- reactive({
         ## ## remove color for all non-selected
         ## palette[setdiff(c(1:obs_y), selected_y)] <- "grey90"
         ## remove color for all selected
-        if (highlight_y == TRUE) {
-            ## palette[selected_y] <- "grey50"
-            ## palette[selected_y] <- highlightcol
-            palette[selected_y] <- highlight_col
-        }
+        # if (highlight_y == TRUE) {
+        #     ## palette[selected_y] <- "grey50"
+        #     ## palette[selected_y] <- highlightcol
+        #     palette[selected_y] <- highlight_col
+        # }
 
     } else if (colorscheme == "discrete") {
 
@@ -272,12 +272,21 @@ visualize.param <- reactive({
             palette <- c("#9ECAE1", "#6BAED6", "#6BAED6", "#08519C", "#C6DBEF", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#9ECAE1", "#6BAED6", "#2171B5", "#2171B5", "#6BAED6", "#08519C", "#6BAED6", "#9ECAE1", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#6BAED6", "#9ECAE1", "#6BAED6", "#08519C", "#C6DBEF", "#6BAED6", "#C6DBEF", "#4292C6", "#2171B5", "#C6DBEF", "#C6DBEF", "#6BAED6", "#2171B5", "#6BAED6", "#4292C6", "#9ECAE1", "#4292C6", "#6BAED6", "#6BAED6", "#6BAED6", "#4292C6", "#4292C6", "#6BAED6", "#6BAED6", "#9ECAE1", "#4292C6", "#4292C6", "#9ECAE1", "#2171B5", "#4292C6", "#9ECAE1", "#9ECAE1")
 
         }
+        # if (highlight_y == TRUE) {
+        #     ## palette[selected_y] <- "grey50"
+        #     ## palette[selected_y] <- highlightcol
+        #     palette[selected_y] <- highlight_col
+        # }
+    }
+
         if (highlight_y == TRUE) {
             ## palette[selected_y] <- "grey50"
             ## palette[selected_y] <- highlightcol
-            palette[selected_y] <- highlight_col
+            ## palette[selected_y] <- highlight_col
+            highlight_col_dark <- colorRampPalette(c("black", highlight_col))(3)[2]
+            palette_highlight_col <- colorRampPalette(c(highlight_col_dark, highlight_col))(length(selected_y))
+            palette[selected_y] <- palette_highlight_col
         }
-    }
 
     return(palette)
 
@@ -407,7 +416,7 @@ output$visualize.summary <- renderPrint({
     par(op)
     ## return(p)
 }
-output$visualize.plot <- renderPlot({
+output$visualize_plot <- renderPlot({
   .visualize.plot(input.visualize_method = input$visualize_method,
                   visualize.data = visualize.data(),
                   title = .visualize.title(),
@@ -427,92 +436,113 @@ output$visualize.plot <- renderPlot({
 })
 
 
-## .visualize.heatmap <- function(visualize.data) {
-##   d <- d3heatmap(t(visualize.data),
-##                  colors = colorRampPalette(c("grey90", twitterblue, "grey20"))(20)
-##                  )
-##     return(d)
-## }
-## output$visualize.heatmap <- renderD3heatmap({
-##   .visualize.heatmap(visualize.data = visualize.data())
-## })
+.visualize.heatmap <- function(visualize.data) {
+  d <- d3heatmap(t(visualize.data),
+                 colors = colorRampPalette(c("grey90", twitterblue, "grey20"))(20)
+                 )
+    return(d)
+}
+output$visualize_heatmap <- renderD3heatmap({
+  .visualize.heatmap(visualize.data = visualize.data())
+})
 
 .visualize.createdf <- function(visualize.data,
-                               input.visualize_logval=FALSE) {
+                                input.visualize_logval=FALSE,
+                                numeric=FALSE) {
 
+  ## visualize.data <- read.csv(file.path(dbpath, "GitHub", "icioapp2015", "inst", "extdata", "icioapp2015_couSindS_2011.csv"))
+  ## rownames(visualize.data) <- visualize.data[, 1]
+  ## ## class(visualize.data)
+  ## visualize.data <- visualize.data[, -1]
+  
     visualize.data <- t(visualize.data)
     if (input.visualize_logval==TRUE) {
         visualize.data[visualize.data >= 1] <- log(visualize.data[visualize.data >= 1])
     }
-    visualize.data.df <- data.frame(columns = c(col(visualize.data)), # industry
-                                    rows = c(row(visualize.data)), # country
-                                    value = c(visualize.data)
-                                    )
+    if (numeric==TRUE) {
+      visualize.data.df <- data.frame(columns = c(col(visualize.data)), # industry
+                                      rows = c(row(visualize.data)), # country
+                                      value = c(visualize.data)
+                                      )
+    } else {
+      visualize.data.df <-
+        visualize.data %>%
+          as.data.frame() %>%
+          add_rownames(var = "industry") %>%
+            gather(key = country, value = value, -industry)
+    }
     names(visualize.data.df) <- c("industry", "country", "value")
     return(visualize.data.df)
 
 }
 
-## .visualize.scatterplot <- function(visualize.data) {
+.visualize.scatterplot <- function(visualize.data) {
 
-##     visualize.data.df <- .visualize.createdf(visualize.data = visualize.data,
-##                                              input.visualize_logval = input$visualize_logval)
-##     names(visualize.data.df) <- c("country", "", "industry")
+    visualize.data.df <- .visualize.createdf(visualize.data = visualize.data,
+                                             input.visualize_logval = input$visualize_logval,
+                                             numeric = TRUE)
+    names(visualize.data.df) <- c("country", "", "industry")
 
-##     ## labels=sprintf(
-##     ##     "x=%.3s, y=%.6s, z=%.1f",
-##     ##     visualize.data.df$columns,
-##     ##     visualize.data.df$rows,
-##     ##     visualize.data.df$value)
-##     d <- scatterplot3js(
-##         x = visualize.data.df,
-##         ## x = as.numeric(visualize.data.df$columns),
-##         ## y = as.numeric(visualize.data.df$rows),
-##         ## x = visualize.data.df$columns,
-##         ## y = visualize.data.df$rows,
-##         ## z = visualize.data.df$value,
-##                color=rep(.visualize.palette(),
-##                    ## length(colnames(visualize.data))),
-##                    ## length(colnames(visualize.data)
-##                    length(unique(visualize.data.df$industry)
-##                           )),
-##                ## labels = labels,
-##                renderer="canvas"
-##                ) # size, label
-##     return(d)
-## }
-## output$visualize.scatterplot <- renderScatterplotThree({
-##     .visualize.scatterplot(visualize.data = visualize.data())
-## })
+    ## labels=sprintf(
+    ##     "x=%.3s, y=%.6s, z=%.1f",
+    ##     visualize.data.df$columns,
+    ##     visualize.data.df$rows,
+    ##     visualize.data.df$value)
+    d <- scatterplot3js(
+        x = visualize.data.df,
+        ## x = as.numeric(visualize.data.df$columns),
+        ## y = as.numeric(visualize.data.df$rows),
+        ## x = visualize.data.df$columns,
+        ## y = visualize.data.df$rows,
+        ## z = visualize.data.df$value,
+               color=rep(.visualize.palette(),
+                   ## length(colnames(visualize.data))),
+                   ## length(colnames(visualize.data)
+                   length(unique(visualize.data.df$industry)
+                          )),
+               ## labels = labels,
+               renderer="canvas"
+               ) # size, label
+    return(d)
+}
+output$visualize_scatterplot <- renderScatterplotThree({
+    .visualize.scatterplot(visualize.data = visualize.data())
+})
 
 
 
-## .visualize.dimple <- function(visualize.data) {
-##     visualize.data.df <- .visualize.createdf(visualize.data = visualize.data,
-##                                              input.visualize_logval = input$visualize_logval)
-##     ## print(head(visualize.data.df))
-##     ## write.csv(visualize.data.df, file = file.path(dlpath, "visualize_data_df.csv"), row.names = FALSE)
-##     d <-
-##         visualize.data.df %>%
-##             dimple(value ~ country,
-##                    groups = "industry",
-##                    type = "bar",
-##                    height = "350px",
-##                    width = "500px"
-##                    )##  %>%
-##                        ## default_colors(colorRampPalette(c("grey20", twitterblue))(unique(visualize.data.df$industry)))
-##     ## d <- d %>% xAxis(type = "addAxis", measure = "value", showPercent = TRUE)
-##     ## d <- d %>% yAxis(type = "addPctAxis")
-##     str(d)
-##     return(d)
-## }
-## output$visualize.dimple <- renderDimple({
-##   ## .visualize.heatmap(visualize.data = visualize.data())
-##     ## input <- NULL
-##     ## visualize.data = isolate(visualize.data())
-##     ## isolate(.visualize.dimple(visualize.data = visualize.data()))
-##     return(.visualize.dimple(visualize.data = visualize.data()))
-## })
+.visualize.dimple <- function(visualize.data) {
+    visualize.data.df <- .visualize.createdf(visualize.data = visualize.data,
+                                             input.visualize_logval = input$visualize_logval,
+                                             numeric = FALSE)
+    ## print(head(visualize.data.df))
+    ## write.csv(visualize.data.df, file = file.path(dlpath, "visualize_data_df.csv"), row.names = FALSE)
+    d <-
+        visualize.data.df %>%
+            dimple(value ~ country,
+                   groups = "industry",
+                   type = "bar"
+                   ## ,
+                   ## height = "350px",
+                   ## width = "500px"
+                   ) %>%
+                     ## default_colors(
+                     ## colorRampPalette(c(
+                     ##   "grey20",
+                     ##   ## "#780585",
+                     ##   ## "#00F2FF",
+                     ##   ## twitterblue
+                     ##   input$visualize_highlight_col
+                     ##   ))(length(unique(visualize.data.df$industry)))) %>%
+                     default_colors(.visualize.palette()) %>%
+                       xAxis(type = "addAxis", measure = "value", showPercent = TRUE) %>%
+                         yAxis(type = "addPctAxis")
+    ## str(d)
+    return(d)
+  }
+output$visualize_dimple <- renderDimple({
+  return(.visualize.dimple(visualize.data = visualize.data()))
+})
 
 
 output$visualize_download_data <- downloadHandler(

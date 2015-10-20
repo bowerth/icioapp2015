@@ -114,26 +114,25 @@ visualize.input <- column(width = 3,
 visualize.output <- column(width = 9,
 
                            box(width = NULL, title = "Parameters", collapsible = TRUE, collapsed = TRUE,
-                               verbatimTextOutput("visualize.summary"))
+                               verbatimTextOutput("visualize_summary"))
                            ,
                            box(width = NULL, collapsible = TRUE, collapsed = FALSE,
-                             plotOutput("visualize.plot", height = 650)
+                               plotOutput("visualize_plot", height = 650)
                                )
 
-                          ## ,
-                          ##  box(width = NULL, collapsible = TRUE, collapsed = TRUE,
-                          ##      d3heatmapOutput("visualize.heatmap", height = "650px")
-                          ##      )
-                          ##  ,
-                          ##  box(width = NULL, collapsible = TRUE, collapsed = TRUE,
-                          ##      scatterplotThreeOutput("visualize.scatterplot", height = "650px")
-                          ##      )
+                          ,
+                           box(width = NULL, collapsible = TRUE, collapsed = FALSE,
+                               dimpleOutput("visualize_dimple", height = "650px")
+                               )
 
-                          ## ,
-                           ## box(width = NULL, # collapsible = TRUE, collapsed = FALSE,
-                           ##     dimpleOutput("visualize.dimple") #, height = "350px")
-                           ##     ## scatterplotThreeOutput("visualize.scatterplot", height = "650px")
-                           ##     )
+                           ,
+                           box(width = NULL, collapsible = TRUE, collapsed = TRUE,
+                               d3heatmapOutput("visualize_heatmap", height = "650px")
+                               )
+                           ,
+                           box(width = NULL, collapsible = TRUE, collapsed = TRUE,
+                               scatterplotThreeOutput("visualize_scatterplot", height = "650px")
+                               )
 
                            )
 
