@@ -617,3 +617,14 @@ output$visualize_download_chart <- downloadHandler(
        dev.off()
     }
 )
+
+output$visualize_download_dimple <- downloadHandler(
+    filename = function() {
+        paste0('icioapp2015_', # namereg[as.numeric(input$couVA)],
+               input$visualize_method,
+               '.html')
+    },
+    content = function(file) {
+        htmlwidgets:::saveWidget(widget = .visualize.dimple(visualize.data = visualize.data()), file = file, selfcontained = TRUE, libdir = NULL)
+    }
+)

@@ -23,24 +23,28 @@ visualize.input <- column(width = 3,
                                           )
                              ,
 
-                              selectInput("visualize_data.coef", "Coefficient Data",
-                                        choices = c("CVB" = "DATA.ICIOeconCVB"),
+                              selectInput("visualize_data.coef", "Subject", # "Coefficient Data",
+                                        choices = c(
+                                          "TiVA" = "DATA.ICIOeconCVB" # CVB 
+                                          ## DATA.ICIOeconB
+                                          ),
                                         selected = "DATA.ICIOeconCVB", multiple = FALSE)
                             ,
                             selectInput("visualize_data.demand", "Demand Data",
                                         choices = c(
-                                          "GRTR" = "DATA.ICIOeconGRTR",
-                                          "FDTTLexINVNT" = "DATA.ICIOeconFDTTLexINVNT"
-                                          ##  ,
-                                          ## "FDTTLdisc" = "DATA.ICIOeconFDTTLdisc"
+                                          "Gross Exports" = "DATA.ICIOeconGRTR", # GRTR
+                                          "Final Demand (excl. inventories)" = "DATA.ICIOeconFDTTLexINVNT" # FDTTLexINVNT
+                                          ,
+                                          "Final Demand" = "DATA.ICIOeconFDTTLdisc" # FDTTLdisc
                                         ),
                                         selected = c("DATA.ICIOeconGRTR"),
                                         multiple = FALSE)
                             ,
-                            selectInput("visualize_method", "Calculation Method",
+                            selectInput("visualize_method", "Result Dimension", # "Calculation Method",
                                         choices = c(
-                                            "couSindS",
-                                            "couXindS"
+                                            "Source Country and Source Industry" = "couSindS"
+                                            # ,
+                                            # "Value-added created by imports" = "couXindS" # Domestic VA in exports
                                            ## ,
                                            ##  "backlink"
                                         ),
@@ -83,9 +87,9 @@ visualize.input <- column(width = 3,
                                          c("PDF", "PNG", "SVG"),
                                          selected = "PDF",
                                          inline = TRUE)
-                            ,
+                            ## ,
                             ## helpText("\nChart download for selected time period")
-                            helpText("\nUse web browser to display SVG files")
+                            ## helpText("\nUse web browser to display SVG files")
                             ,
                             selectInput("visualize_colorscheme", "Color Scheme",
                                         choices = c("continuous", "discrete"),
@@ -122,7 +126,8 @@ visualize.output <- column(width = 9,
 
                           ,
                            box(width = NULL, collapsible = TRUE, collapsed = FALSE,
-                               dimpleOutput("visualize_dimple", height = "650px")
+                               dimpleOutput("visualize_dimple", height = "650px"),
+                               downloadButton("visualize_download_dimple", "Download HTML")
                                )
 
                            ,
