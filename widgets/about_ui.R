@@ -16,8 +16,8 @@ about.output <- list(
     "and", a(href = "http://rstudio.github.io/shinydashboard/", "shinydashboard"),
     "by", a(href = "http://www.rstudio.com/", "RStudio"))
   ,
-  shiny::p("Featured R packages:", a(href = "https://github.com/rstudio/d3heatmap/", "d3heatmap"))
-  ,
-  shiny::p("Other features:", a(href = "https://fortawesome.github.io/Font-Awesome/", "Font-Awesome"))
+  ## shiny::p("Featured R packages:", a(href = "https://github.com/rstudio/d3heatmap/", "d3heatmap"))
+  ## ,
+  shiny::p("Industry list using", a(href = "https://fortawesome.github.io/Font-Awesome/", "Font-Awesome"), "icons")
   )
 

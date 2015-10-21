@@ -46,7 +46,7 @@ setInitValues <- function() {
         ## data location: stan.contact Dropbox: /icio2015/Rdata
         ## https://www.dropbox.com/s/8xuh9jvv73x9pjy/DATA.ICIOeconCVB.Rdata?dl=0
         env <- new.env()
-        load(file.path("data", "DATA.ICIOeconCVB.Rdata"), envir = env)
+        load(file.path("data", "external", "DATA.ICIOeconCVB.Rdata"), envir = env)
         df <- mget(ls(envir = env), envir = env)
         values[["DATA.ICIOeconCVB"]] <- df
         values[["DATA.ICIOeconCVB_descr"]] <- attr(df, "description")
@@ -55,7 +55,7 @@ setInitValues <- function() {
 
         ## https://www.dropbox.com/s/95k1u7gv99q9sfn/DATA.ICIOeconFDTTLexINVNT.Rdata?dl=0
         env <- new.env()
-        load(file.path("data", "DATA.ICIOeconFDTTLexINVNT.Rdata"), envir = env)
+        load(file.path("data", "external", "DATA.ICIOeconFDTTLexINVNT.Rdata"), envir = env)
         df <- mget(ls(envir = env), envir = env)
         values[["DATA.ICIOeconFDTTLexINVNT"]] <- df
         values[["DATA.ICIOeconFDTTLexINVNT_descr"]] <- attr(df, "description")
@@ -64,7 +64,7 @@ setInitValues <- function() {
 
         ## https://www.dropbox.com/s/69n35lv3pu3wf5h/DATA.ICIOeconGRTR.Rdata?dl=0
         env <- new.env()
-        load(file.path("data", "DATA.ICIOeconGRTR.Rdata"), envir = env)
+        load(file.path("data", "external", "DATA.ICIOeconGRTR.Rdata"), envir = env)
         df <- mget(ls(envir = env), envir = env)
         values[["DATA.ICIOeconGRTR"]] <- df
         values[["DATA.ICIOeconGRTR_descr"]] <- attr(df, "description")
@@ -74,7 +74,7 @@ setInitValues <- function() {
         ## ## backward linkages
         ## ## https://www.dropbox.com/s/3z8prao7xz7o3pf/DATA.ICIOeconB.Rdata?dl=0
         ## env <- new.env()
-        ## load(file.path("data", "DATA.ICIOeconB.Rdata"), envir = env)
+        ## load(file.path("data", "external", "DATA.ICIOeconB.Rdata"), envir = env)
         ## df <- mget(ls(envir = env), envir = env)
         ## values[["DATA.ICIOeconB"]] <- df
         ## values[["DATA.ICIOeconB_descr"]] <- attr(df, "description")
@@ -82,7 +82,7 @@ setInitValues <- function() {
 
         ## ## https://www.dropbox.com/s/nqw2lm2eegdvgx0/DATA.ICIOeconFDTTLdisc.Rdata?dl=0
         ## env <- new.env()
-        ## load(file.path("data", "DATA.ICIOeconFDTTLdisc.Rdata"), envir = env)
+        ## load(file.path("data", "external", "DATA.ICIOeconFDTTLdisc.Rdata"), envir = env)
         ## df <- mget(ls(envir = env), envir = env)
         ## values[["DATA.ICIOeconFDTTLdisc"]] <- df
         ## values[["DATA.ICIOeconFDTTLdisc_descr"]] <- attr(df, "description")

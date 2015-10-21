@@ -2,6 +2,27 @@
 ## load('c:/temp/Dropbox/ICIO2015/Rdata/DATA.ICIOeconFDTTLdisc.Rdata')
 ## load('c:/temp/Dropbox/ICIO2015/Rdata/DATA.ICIOeconCVB.Rdata')
 
+## create reactive labels for UI elements
+output$visualize_indX <- renderUI ({
+    label <- ifelse(input$visualize_data.demand=="DATA.ICIOeconGRTR",
+                    "Export Industry",
+                    "Demand Industry")
+    selectInput("visualize_indX", label, # "Export or Demand Industry",
+                choices = isolate(names(values$indagg)),
+                selected = "CTOTAL",
+                multiple = TRUE)
+})
+
+output$visualize_couX <- renderUI ({
+    label <- ifelse(input$visualize_data.demand=="DATA.ICIOeconGRTR",
+                    "Export Country (or Region)",
+                    "Product Origin Country (or Region)")
+    selectInput("visualize_couX", label, # "Product Origin or Export Country/Region"
+                choices = isolate(names(values$couagg)),
+                selected = "WOR",
+                multiple = TRUE)
+})
+
 visualize_couSindS <- function(data.coef=values[["DATA.ICIOeconCVB"]][[1]],
                                data.demand=values[["DATA.ICIOeconGRTR"]][[1]],
                                nocou=values[["nocou"]],
@@ -332,7 +353,7 @@ visualize.param <- reactive({
 ## http://timelyportfolio.github.io/docs/_build/html/dimple/gallery.html#example14-marimekko-horiz-r
 ## http://dimplejs.org/advanced_examples_viewer.html?id=advanced_grouped_mekko
 
-output$visualize.summary <- renderPrint({
+output$visualize_summary <- renderPrint({
 
     couD <- .visualize.couD()
     couX <- .visualize.couX()
@@ -417,6 +438,9 @@ output$visualize.summary <- renderPrint({
     ## return(p)
 }
 output$visualize_plot <- renderPlot({
+
+    if (sum(visualize.data())==0) return()
+
   .visualize.plot(input.visualize_method = input$visualize_method,
                   visualize.data = visualize.data(),
                   title = .visualize.title(),
@@ -443,6 +467,7 @@ output$visualize_plot <- renderPlot({
     return(d)
 }
 output$visualize_heatmap <- renderD3heatmap({
+    if (sum(visualize.data())==0) return()
   .visualize.heatmap(visualize.data = visualize.data())
 })
 
@@ -454,7 +479,7 @@ output$visualize_heatmap <- renderD3heatmap({
   ## rownames(visualize.data) <- visualize.data[, 1]
   ## ## class(visualize.data)
   ## visualize.data <- visualize.data[, -1]
-  
+
     visualize.data <- t(visualize.data)
     if (input.visualize_logval==TRUE) {
         visualize.data[visualize.data >= 1] <- log(visualize.data[visualize.data >= 1])
@@ -479,7 +504,7 @@ output$visualize_heatmap <- renderD3heatmap({
 .visualize.scatterplot <- function(visualize.data) {
 
     visualize.data.df <- .visualize.createdf(visualize.data = visualize.data,
-                                             input.visualize_logval = input$visualize_logval,
+                                             ## input.visualize_logval = input$visualize_logval,
                                              numeric = TRUE)
     names(visualize.data.df) <- c("country", "", "industry")
 
@@ -506,6 +531,7 @@ output$visualize_heatmap <- renderD3heatmap({
     return(d)
 }
 output$visualize_scatterplot <- renderScatterplotThree({
+    if (sum(visualize.data())==0) return()
     .visualize.scatterplot(visualize.data = visualize.data())
 })
 
@@ -513,7 +539,7 @@ output$visualize_scatterplot <- renderScatterplotThree({
 
 .visualize.dimple <- function(visualize.data) {
     visualize.data.df <- .visualize.createdf(visualize.data = visualize.data,
-                                             input.visualize_logval = input$visualize_logval,
+                                             ## input.visualize_logval = input$visualize_logval,
                                              numeric = FALSE)
     ## print(head(visualize.data.df))
     ## write.csv(visualize.data.df, file = file.path(dlpath, "visualize_data_df.csv"), row.names = FALSE)
@@ -541,6 +567,7 @@ output$visualize_scatterplot <- renderScatterplotThree({
     return(d)
   }
 output$visualize_dimple <- renderDimple({
+    if (sum(visualize.data())==0) return()
   return(.visualize.dimple(visualize.data = visualize.data()))
 })
 

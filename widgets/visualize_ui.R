@@ -25,7 +25,7 @@ visualize.input <- column(width = 3,
 
                               selectInput("visualize_data.coef", "Subject", # "Coefficient Data",
                                         choices = c(
-                                          "TiVA" = "DATA.ICIOeconCVB" # CVB 
+                                          "TiVA" = "DATA.ICIOeconCVB" # CVB
                                           ## DATA.ICIOeconB
                                           ),
                                         selected = "DATA.ICIOeconCVB", multiple = FALSE)
@@ -34,8 +34,8 @@ visualize.input <- column(width = 3,
                                         choices = c(
                                           "Gross Exports" = "DATA.ICIOeconGRTR", # GRTR
                                           "Final Demand (excl. inventories)" = "DATA.ICIOeconFDTTLexINVNT" # FDTTLexINVNT
-                                          ,
-                                          "Final Demand" = "DATA.ICIOeconFDTTLdisc" # FDTTLdisc
+                                          ## ,
+                                          ## "Final Demand" = "DATA.ICIOeconFDTTLdisc" # FDTTLdisc
                                         ),
                                         selected = c("DATA.ICIOeconGRTR"),
                                         multiple = FALSE)
@@ -53,20 +53,22 @@ visualize.input <- column(width = 3,
                                         multiple = FALSE)
                             ,
 
-                            selectInput("visualize_indX", "Export or Demand Industry",
-                                        choices = isolate(names(values$indagg)),
-                                        ## selected = "C15T37",
-                                        selected = "CTOTAL",
-                                        ## selected = "C65T74",
-                                        multiple = TRUE)
+                            ## selectInput("visualize_indX", "Export or Demand Industry",
+                            ##             choices = isolate(names(values$indagg)),
+                            ##             ## selected = "C15T37",
+                            ##             selected = "CTOTAL",
+                            ##             ## selected = "C65T74",
+                            ##             multiple = TRUE)
+                              uiOutput("visualize_indX")
                             ,
 
 
-                            selectInput("visualize_couX", "Product Origin or Export Country/Region",
-                                        choices = isolate(names(values$couagg)),
-                                        ## selected = c("MEX", "CHN"),
-                                        selected = "WOR",
-                                        multiple = TRUE)
+                            ## selectInput("visualize_couX", "Product Origin or Export Country/Region",
+                            ##             choices = isolate(names(values$couagg)),
+                            ##             ## selected = c("MEX", "CHN"),
+                            ##             selected = "WOR",
+                            ##             multiple = TRUE)
+                              uiOutput("visualize_couX")
                             ,
                             selectInput("visualize_couD", "Demand Country/Region",
                                         choices = isolate(names(values$couagg)),
@@ -106,9 +108,9 @@ visualize.input <- column(width = 3,
                                   colourInput("visualize_highlight_col", "Select colour", value = "green")
                               )
                              ,
-                            checkboxInput("visualize_logval", "Log Values (>= 1)",
-                                          value = FALSE)
-                            ,
+                            ## checkboxInput("visualize_logval", "Log Values (>= 1)",
+                            ##               value = FALSE)
+                            ## ,
                             checkboxInput("visualize_cellborder", "Cell Borders", value = TRUE)
                             ,
                             checkboxInput("visualize_pivotmatrix", "Swap x- and y-axes", value = FALSE)
