@@ -20,4 +20,3 @@ about.output <- list(
   ## ,
   shiny::p("Industry list using", a(href = "https://fortawesome.github.io/Font-Awesome/", "Font-Awesome"), "icons")
   )
-
