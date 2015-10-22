@@ -89,12 +89,6 @@ PUBSERVER <- "AZ-ICIO-1"
 
 menuitems <- list(
     menuItem("Visualize indicators", tabName = "visualize", icon = icon("th"))
-   ,
-    menuItem("Gross Exports related indicators", tabName = "grossexports", icon = icon("th"))
-   ,
-    menuItem("Final Demand related indicators", tabName = "finaldemand", icon = icon("th"))
-   ,
-    menuItem("About", tabName = "about", icon = icon("info")) # info-circle
 )
 
 
@@ -103,6 +97,16 @@ if (Sys.info()[["nodename"]]!=PUBSERVER) {
                    list(menuItem("Visualize indicators (internal)", tabName = "visualize_internal", icon = icon("th")))
                    )
 }
+
+menuitems <- c(menuitems,
+               list(
+                   menuItem("Gross Exports related indicators", tabName = "grossexports", icon = icon("th"))
+                  ,
+                   menuItem("Final Demand related indicators", tabName = "finaldemand", icon = icon("th"))
+                  ,
+                   menuItem("About", tabName = "about", icon = icon("info")) # info-circle
+                   )
+               )
 
 sidebar <- dashboardSidebar(
     sidebarMenu(menuitems)
