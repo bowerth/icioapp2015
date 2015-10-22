@@ -121,7 +121,8 @@ visualize.output <- column(width = 9,
 
                            box(width = NULL, title = "Parameters", collapsible = TRUE, collapsed = TRUE,
                                verbatimTextOutput("visualize_summary"))
-                           ,
+                          ,
+
                            box(width = NULL, collapsible = TRUE, collapsed = FALSE,
                                plotOutput("visualize_plot", height = 650)
                                )

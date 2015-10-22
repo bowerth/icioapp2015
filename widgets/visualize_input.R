@@ -22,3 +22,16 @@ visualize_logval = input$visualize_logval
 visualize_pivotmatrix = input$visualize_pivotmatrix
 
 output <- NULL
+
+## ## debug
+## input <- list(year = 2005,
+##               couX = icioapp2015_couagg[["OECD"]],
+##               couD = icioapp2015_couagg[["WOR"]],
+##               indX = icioapp2015_indagg[["Goods"]])
+
+## result.test <- isolate(visualize_couSindS(couX = c(1:34),
+##                         couD = c(1:62),
+##                         indX = c(1:18),
+##                         year = 2010))
+## ## dim(result.test)
+## mosaicplot(result.test)

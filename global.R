@@ -172,7 +172,12 @@ load(file.path("data", "conexc.rda")) # dim(conexc) = 69 62
 ## copy.path.db <- file.path(dbpath, "GitHub", "stan", "R")
 function.list <- c("convCreate.R",
                    "convCreateDiag.R",
-                   "convCreateDiag2.R"
+                   "convCreateDiag2.R",
+                   ## "visualize_createdf.R",
+                   ## "visualize_dimple.R",
+                   "visualize.R",
+                   "calculate.R",
+                   "helper.R"
                    )
 ## for (basename in function.list) {
 ##     file.copy(from = file.path(copy.path.db, basename),
