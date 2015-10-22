@@ -126,20 +126,20 @@ visualize.output <- column(width = 9,
                                plotOutput("visualize_plot", height = 650)
                                )
 
-                          ,
-                           box(width = NULL, collapsible = TRUE, collapsed = FALSE,
-                               dimpleOutput("visualize_dimple", height = "650px"),
-                               downloadButton("visualize_download_dimple", "Download HTML")
-                               )
+                          ## ,
+                          ##  box(width = NULL, collapsible = TRUE, collapsed = FALSE,
+                          ##      dimpleOutput("visualize_dimple", height = "650px"),
+                          ##      downloadButton("visualize_download_dimple", "Download HTML")
+                          ##      )
 
-                           ,
-                           box(width = NULL, collapsible = TRUE, collapsed = TRUE,
-                               d3heatmapOutput("visualize_heatmap", height = "650px")
-                               )
-                           ,
-                           box(width = NULL, collapsible = TRUE, collapsed = TRUE,
-                               scatterplotThreeOutput("visualize_scatterplot", height = "650px")
-                               )
+                           ## ,
+                           ## box(width = NULL, collapsible = TRUE, collapsed = TRUE,
+                           ##     d3heatmapOutput("visualize_heatmap", height = "650px")
+                           ##     )
+                           ## ,
+                           ## box(width = NULL, collapsible = TRUE, collapsed = TRUE,
+                           ##     scatterplotThreeOutput("visualize_scatterplot", height = "650px")
+                           ##     )
 
                            )
 
