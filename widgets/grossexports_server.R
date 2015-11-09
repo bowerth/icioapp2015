@@ -66,7 +66,7 @@ grossexports.data <- reactive({
     ## DATA.ICIOeconGRTR: [2346, 69]
     ## conexc: [69, 62]
     ## DATA.ICIOeconGRTR.62: [2346, 62]
-    DATA.ICIOeconGRTR.62 <- DATA.ICIOeconGRTR[year - 1994, , c(1:(dim(DATA.ICIOeconGRTR)[3]-1))]  %*% conexc
+    DATA.ICIOeconGRTR.62 <- DATA.ICIOeconGRTR[year - 1994, , c(1:(dim(DATA.ICIOeconGRTR)[3]-1))]  %*% conexc # remove discrepancy
 
     conv_nocoucouaddnoind_nocou <-
         convCreate(dim=list(row=c(nocou + cou_add,noind),col=c(nocou)),
@@ -93,7 +93,7 @@ grossexports.data <- reactive({
         temp1 <- t(conv_nocounoind_noind) %*% EXGR_VABSCI
         ## add industry aggregates
         temp1 <- c(c(temp1) %*% convAggInd)
-        temp2 <- rep(sum(temp.dmd), length(temp1))
+        temp2 <- rep(sum(temp.dmd), length(temp1))  # can this be put outside if-else clause? temp.dmd defined before
 
         dim_label <- NameInd34_agg
         dim_title <- "Source Industry"
@@ -116,9 +116,9 @@ grossexports.data <- reactive({
         ##     colnames(convRegCou)
         ##   }
         ## })
-        
+
         ## todo: add country aggregates?
-        temp2 <- rep(sum(temp.dmd), length(temp1))
+        temp2 <- rep(sum(temp.dmd), length(temp1)) # can this be put outside if-else clause? temp.dmd defined before
         ## dim_label <- as.character(ui.icioDash.namereg.df[,1])
         dim_label <- colnames(convRegCou)
         dim_title <- "Source Country"
@@ -136,7 +136,7 @@ grossexports.data <- reactive({
     names(temp) <- sub("dim_title", dim_title, names(temp))
     ## colnames(temp) <- c(dim_title, "VA by Exports", "Exports", "Ratio, in percent")
 
-    
+
     return(temp)
 })
 

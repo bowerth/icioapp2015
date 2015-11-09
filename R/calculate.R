@@ -133,8 +133,11 @@ visualize_couSindS <- function(data.coef=values[["DATA.ICIOeconCVB"]][[1]],
 
     nocou_add <- nocou + cou_add
 
-    temp = array(0, c((nocou_add * noind), (nocou_add + 1))) # 2346 * 70
+    ## create empty selection array
+    ## temp = array(0, c((nocou_add * noind), (nocou_add + 1))) # 2346 * 70
+    temp = array(0, c((nocou_add * noind), nocou)) # 2346 * 62
 
+    ## populate selection array with 1 for selection
     for(i in couD) {
         for(j in couX) {
             for(k in indX) {
@@ -145,8 +148,11 @@ visualize_couSindS <- function(data.coef=values[["DATA.ICIOeconCVB"]][[1]],
         }
     }
 
+    data.demand.reduce <- data.demand[year-1994, , c(1:(dim(data.demand)[3]-1))] %*% conexc
+
     result <- data.coef[year-1994, , ] %*%
-        apply(temp * data.demand[year-1994, , ] , 1, sum)
+        ## apply(temp * data.demand[year-1994, , ] , 1, sum)
+        apply(temp * data.demand.reduce, 1, sum)
 
     result.m <- matrix( result, byrow = T, ncol = noind) # 34
 
