@@ -100,7 +100,9 @@ visualize.input <- column(width = 3,
                                         multiple = FALSE)
                             ,
                             checkboxInput("visualize_highlight_y", "Highlight Selection (Industry)",
-                                          value = FALSE)
+                                          ## value = FALSE
+                                          value = TRUE
+                                          )
                             ,
                               #library(shiny)
                               conditionalPanel(

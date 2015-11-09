@@ -93,7 +93,8 @@ output$visualize_indX <- renderUI ({
                     "Demand Industry")
     selectInput("visualize_indX", label, # "Export or Demand Industry",
                 choices = isolate(names(values$indagg)),
-                selected = "CTOTAL",
+                ## selected = "CTOTAL",
+                selected = "C15T37",
                 multiple = TRUE)
 })
 output$visualize_couX <- renderUI ({
@@ -132,24 +133,45 @@ output$visualize_summary <- renderPrint({
     return(cat(blurb))
 })
 
+## visualize_plot <- reactive({
+##   if (sum(visualize.data())==0) return()
+##   .visualize.plot(input.visualize_method = input$visualize_method,
+##                   visualize.data = visualize.data(),
+##                   title = visualize.title(),
+##                   ## input.visualize_year = input$visualize_year
+##                   input.visualize_year = input$visualize_year[1],
+##                   input.visualize_cellborder = input$visualize_cellborder,
+##                   indX = visualize.indX(),
+##                   couD = visualize.couD(),
+##                   noind = values$noind,
+##                   nocou = values$nocou,
+##                   visualize.param = visualize.param(),
+##                   input.visualize_highlight_y = input$visualize_highlight_y,
+##                   input.visualize_colorscheme = input$visualize_colorscheme,
+##                   input.visualize_pivotmatrix = input$visualize_pivotmatrix,
+##                   visualize.palette = visualize.palette()
+##                   )
+## })
+
 output$visualize_plot <- renderPlot({
-    if (sum(visualize.data())==0) return()
-    .visualize.plot(input.visualize_method = input$visualize_method,
-                    visualize.data = visualize.data(),
-                    title = visualize.title(),
-                    ## input.visualize_year = input$visualize_year
-                    input.visualize_year = input$visualize_year[1],
-                    input.visualize_cellborder = input$visualize_cellborder,
-                    indX = visualize.indX(),
-                    couD = visualize.couD(),
-                    noind = values$noind,
-                    nocou = values$nocou,
-                    visualize.param = visualize.param(),
-                    input.visualize_highlight_y = input$visualize_highlight_y,
-                    input.visualize_colorscheme = input$visualize_colorscheme,
-                    input.visualize_pivotmatrix = input$visualize_pivotmatrix,
-                    visualize.palette = visualize.palette()
-                    )
+  if (sum(visualize.data())==0) return()
+  .visualize.plot(input.visualize_method = input$visualize_method,
+                  visualize.data = visualize.data(),
+                  title = visualize.title(),
+                  ## input.visualize_year = input$visualize_year
+                  input.visualize_year = input$visualize_year[1],
+                  input.visualize_cellborder = input$visualize_cellborder,
+                  indX = visualize.indX(),
+                  couD = visualize.couD(),
+                  noind = values$noind,
+                  nocou = values$nocou,
+                  visualize.param = visualize.param(),
+                  input.visualize_highlight_y = input$visualize_highlight_y,
+                  input.visualize_colorscheme = input$visualize_colorscheme,
+                  input.visualize_pivotmatrix = input$visualize_pivotmatrix,
+                  visualize.palette = visualize.palette()
+                  )
+  ## visualize_plot()
 })
 
 ## output$visualize_heatmap <- renderD3heatmap({
@@ -232,9 +254,11 @@ output$visualize_download_chart <- downloadHandler(
                         visualize.param = visualize.param(),
                         input.visualize_colorscheme = input$visualize_colorscheme,
                         input.visualize_highlight_y= input$visualize_highlight_y,
-                        input.visualize_pivotmatrix = input$visualize_pivotmatrix
+                        input.visualize_pivotmatrix = input$visualize_pivotmatrix,
+                        visualize.palette = visualize.palette()
                         )
         ## } # multiplot end
+
         dev.off()
     }
 )

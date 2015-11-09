@@ -51,6 +51,7 @@ output$global_indX <- renderUI ({
     selectInput("global_indX", label, # "Export or Demand Industry",
                 choices = isolate(names(values$indagg)),
                 selected = "CTOTAL",
+                ## selected = "C15T37",
                 multiple = TRUE)
 })
 output$global_couX <- renderUI ({
