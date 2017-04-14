@@ -8,15 +8,17 @@
 
 ## install.packages("DT")
 ## devtools::install_github("rstudio/DT")
-if (Sys.info()[["user"]]%in%c("werth_b", "z930")) {
-    setwd(file.path(dbpath, "GitHub", "icioapp2015"))
-} else {
-    setwd(file.path('c:/Temp/Dropbox/icioapp2015/'))
-}
+
+## if (Sys.info()[["user"]]%in%c("werth_b", "z930")) {
+##     setwd(file.path(dbpath, "GitHub", "icioapp2015"))
+## } else {
+##     setwd(file.path('c:/Temp/Dropbox/icioapp2015/'))
+## }
+
 ## testingRadiant <- FALSE
-require(shiny)
+library(shiny)
 ## source("global.R")
-require(shinydashboard)
+library(shinydashboard)
 ## require(DT)
 ## sessionInfo()
 
@@ -32,3 +34,9 @@ source("app.R")
 
 shinyApp(ui, server)
 
+
+## TESTING
+
+## library(shinytest)
+## recordTest()
+## testApp()

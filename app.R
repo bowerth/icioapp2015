@@ -8,6 +8,7 @@ library(shinydashboard)
 library(d3heatmap)
 library(threejs)
 
+## devtools::install_github("timelyportfolio/rcdimple")
 library(rcdimple)
 
 library(dplyr)
@@ -93,11 +94,11 @@ menuitems <- list(
 )
 
 
-if (Sys.info()[["nodename"]]!=PUBSERVER) {
-    menuitems <- c(menuitems,
-                   list(menuItem("Visualize indicators (internal)", tabName = "visualize_internal", icon = icon("th")))
-                   )
-}
+## if (Sys.info()[["nodename"]]!=PUBSERVER) {
+##     menuitems <- c(menuitems,
+##                    list(menuItem("Visualize indicators (internal)", tabName = "visualize_internal", icon = icon("th")))
+##                    )
+## }
 
 menuitems <- c(menuitems,
                list(

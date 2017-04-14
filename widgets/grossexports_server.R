@@ -46,6 +46,9 @@ grossexports.data <- reactive({
     couX <- unique(unname(unlist(values$couagg69[input$grossexports_couX])))
     indX <- unique(unname(unlist(values$indagg[input$grossexports_indX])))
     couD <- unique(unname(unlist(values$couagg[input$grossexports_couD])))
+    ## couX <- isolate(unique(unname(unlist(values$couagg69[input$grossexports_couX]))))
+    ## indX <- isolate(unique(unname(unlist(values$indagg[input$grossexports_indX]))))
+    ## couD <- isolate(unique(unname(unlist(values$couagg[input$grossexports_couD]))))
 
     DATA.ICIOeconCVB <- values[["DATA.ICIOeconCVB"]][[1]]
     DATA.ICIOeconGRTR <- values[["DATA.ICIOeconGRTR"]][[1]]
@@ -55,6 +58,9 @@ grossexports.data <- reactive({
     nocou <- values[["nocou"]]
     cou_add <- values[["cou_add"]]
     noind <- values[["noind"]]
+    ## nocou <- isolate(values[["nocou"]])
+    ## cou_add <- isolate(values[["cou_add"]])
+    ## noind <- isolate(values[["noind"]])
 
     ## year <- 2005
     cvB <- DATA.ICIOeconCVB[year - 1994, , ]
@@ -84,12 +90,17 @@ grossexports.data <- reactive({
     if (input$grossexports_bysource=="ind") {
 
         couS <- unique(unname(unlist(values$couagg[input$grossexports_couS])))
+        ## couS <- isolate(unique(unname(unlist(values$couagg[input$grossexports_couS]))))
         ## overwrite input: select all source industries
         indS <- c(1:noind)
 
-        conv_nocounoind_noind <- convCreateDiag2(dim=list(row=c(nocou,noind),col=c(noind)),
+      ## Error in array(0, dim = vdim, dimnames = dimnames)
+      ## (from convCreateDiag2.R#31) : 'dimnames' must be a list
+      conv_nocounoind_noind <- convCreateDiag2(dim=list(row=c(nocou,noind),
+                                                        col=c(noind)),
                                                 agg.row1=c(couS),
                                                 agg.row2=c(indS))
+
         temp1 <- t(conv_nocounoind_noind) %*% EXGR_VABSCI
         ## add industry aggregates
         temp1 <- c(c(temp1) %*% convAggInd)
