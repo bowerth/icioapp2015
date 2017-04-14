@@ -28,7 +28,8 @@ convCreateDiag <- function(dim=list(row=c(58,37),col=c(58)),
         }
     }
     ##
-    conv <- array(0, dim = vdim, dimnames = dimnames)
+    ## conv <- array(0, dim = vdim, dimnames = dimnames)
+    conv <- array(0, dim = vdim)
 
     for (i in agg.row1) {
         conv[(agg.row1[i]-1) * dim[[1]][2] + agg.row2, as.numeric(i)] <- 1
